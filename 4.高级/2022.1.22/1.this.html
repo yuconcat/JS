@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function car(color) {
+
+        this.color = color;
+        console.log(this);
+
+        this.getcolor = function () {
+            console.log(this);
+            return this.color;
+        }
+
+        this.setcolor = function (color) {
+            console.log(this);
+            this.color = color;
+        }
+    }
+
+    car("red");   //this是window
+
+    var p = new car("yellow");   //this是car
+
+    var test = p.setcolor;       //test是setcolor函数
+    test();       //this是window
+
+
+    function fun1() {
+        function fun2() {
+            console.log(this);
+        }
+        fun2();//this是window
+    }
+    fun1();
+
+</script>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #box{
+        width: 200px;
+        height:200px;
+        background-color: tomato;
+    }
+</style>
+<body>
+
+<button id="btn">点我一下修改样式</button>
+
+<div id="box"></div>
+
+<button id="btn1">点我一下获取样式</button>
+
+</body>
+<script>
+    window.onload = function () {
+
+        let btn = document.getElementById("btn");
+        let box = document.getElementById("box");
+
+        btn.onclick = function () {
+        //    修改样式的方法
+        //    语法：元素.style.样式名 = 样式值
+        //    注意：如果样式名中有“-” ，则要修改为驼峰命名法，background-color变为backgroundColor
+            box.style.width = "300px";
+            box.style.height = "300px";
+            box.style.backgroundColor = "yellow";
+        //    通过这种方法设置的样式都是内联样式
+        //      而内联样式有较高的优先级，所以通过JS修改的样式往往会立即显示
+
+        //    但是如果在样式中写了important，则此样式会有最高的优先级
+        //    即使通过js也不能覆盖该样式，因此尽量不要为样式添加important
+        }
+
+        let btn1 = document.getElementById("btn1");
+        btn1.onclick = function () {
+            //    获取样式的方法
+            //    语法：元素.style.样式名
+            alert(box.style.width);
+            //    只能读内联样式
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <ul id="city">
+        <li id="nc">南昌</li>
+        <li>石家庄</li>
+        <li>北京</li>
+        <li>杭州</li>
+    </ul>
+    <button id="btn1">点我获取城市</button>
+</div>
+</body>
+<script>
+    //获取父节点和兄弟节点
+    //通过具体的节点调用
+    //1.parentNode
+    //属性，表示当前节点的父亲节点
+
+    //2.previousSibling
+    //属性，表示当前节点的前一个兄弟节点
+
+    //3.nextSibling
+    //属性，表示当前节点的后一个兄弟节点
+
+
+//================================================================
+    //定义一个函数，专门用来为指定元素绑定单击响应函数
+    //参数：
+    //    idstr 要绑定单击响应函数的对象的id
+    //    fun   事件的回调函数，当单击元素时，改函数将被触发
+
+    function myclick(idstr,fun){
+        var btn=document.getElementById(idstr);
+        btn.onclick = fun;
+    }
+    
+    myclick("btn1",function () {
+        var nc = document.getElementById("nc");
+
+        var parent = nc.parentNode; //获取nc的父亲节点
+
+        alert(parent.innerHTML)     //innerHTML   可以获取到元素内部的文本内容
+                                    // “<li id="nc">南昌</li><li>石家庄</li><li>北京</li><li>杭州</li>”
+
+        alert(parent.innerText)     //innerText   可以获取到元素内部的文本内容，但会自动将html标签去掉
+                                    // 南昌 石家庄 北京 杭州
+
+    })
+    
+    
+</script>
+</html>

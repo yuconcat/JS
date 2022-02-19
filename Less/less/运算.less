@@ -1,0 +1,47 @@
+@w:300px;
+
+.box{
+  //减法要插入空格，不然报错
+  width: @w - 100;
+
+  height: @w+100;
+
+  border: 5px solid #f00;
+
+  position: relative;
+
+  left: @w*2;
+
+  top:@w/3;
+
+  div{
+    width: @w/2;
+    height: @w/2;
+
+    //设置垂直居中
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    background-color: darkorange;
+  }
+
+}
+
+@width:200px;
+@height:300px;
+
+.box1{
+  width: @width;
+  height: @height;
+  border: 5px solid #bbffaa;
+
+  .box2{
+    width: @width/2;
+    height: @height/2;
+    background-color: darkcyan;
+
+    //设置垂直居中
+    margin: (@height - @height/2)/2 auto 0 auto;
+  }
+}

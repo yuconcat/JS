@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    div.tip{
+        width: 300px;
+        height: 200px;
+        border: 1px solid #333;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        margin: auto;
+        background-color: white;
+
+        /*默认不显示*/
+        display: none;
+    }
+    div.tip > .top{
+        height: 20px;
+        background-color: deepskyblue;
+        padding: 10px;
+    }
+    div.tip > .top > span{
+        float: right;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: white;
+        font-size: 16px;
+        text-align: center;
+        line-height: 20px;
+    }
+    .tip > .content{
+        position: relative;
+        height: 120px;
+        background-color: yellow;
+    }
+    .tip > .content > p{
+        position: relative;
+        text-align: center;
+        margin: 0px;
+        top:40%;
+        width: 260px;
+        padding: 0px 20px;
+    }
+    .tip > .btn{
+        height: 20px;
+        background-color: greenyellow;
+        padding: 10px 20px;
+    }
+    .tip > .btn > button{
+        float: right;
+        margin-left: 10px;
+    }
+</style>
+<body>
+<div class="tip">
+    <div class="top">标题
+        <span class="close">x</span>
+    </div>
+    <div class="content"><p>${txt}</p></div>
+    <div class="btn">
+        <button class="ok">确定</button>
+        <button class="cancel">取消</button>
+    </div>
+</div>
+</body>
+<script>
+
+   //自定义弹出层
+   //1.书写改造函数
+   //2.书写闭包
+   //3.把类放在闭包里
+   //4.单例模式核心代码
+
+   //实现功能的类
+
+
+   const Tip = (function () {
+       class Tips {
+           constructor() {
+               //   创建最外层的div标签
+               this.ele = document.createElement("div")
+               this.ele.className = "tip"
+               document.body.appendChild(this.ele)
+               //设置默认回调函数
+               this.callback = function () {}
+               //只要在第一次创建的时候就绑定好事件，不用每次都绑定
+               this.bindEvent()
+           }
+
+           //    1.填充this.ele的内容
+           setContent(txt) {
+               //应该是创建节点的形式书写，自己添加样式，而不是直接写字符串
+               this.ele.innerHTML = `<div class="top">标题
+                                         <span class="close">x</span>
+                                         </div>
+                                         <div class="content"><p>${txt}</p></div>
+                                         <div class="btn">
+                                          <button class="ok">确定</button>
+                                           <button class="cancel">取消</button>
+                                        </div>`
+
+
+               this.ele.style.display = "block"
+           }
+
+           //    2.添加各种事件
+           //     ev.target实现事件委托，否则上面的结构一旦修改，绑定的事件就会失效
+           bindEvent() {
+               this.ele, addEventListener("click", ev => {
+                   ev = ev || window.event
+                   const target = ev.target || ev.srcElement
+
+                   if (target.className === "close") {
+                       this.ele.style.display = "none"
+                   }
+
+                   if (target.className === "cancel") {
+                       this.callback(false)
+                       this.ele.style.display = "none"
+                   }
+
+                   if (target.className === "ok") {
+                       this.callback(true)
+                       this.ele.style.display = "none"
+                   }
+               })
+           }
+
+       //    3.添加样式
+           setcolor(val){
+               this.ele.querySelector(".top").style.backgroundColor = val
+           }
+       }
+
+       //单例模式核心代码
+       let instance = null
+
+       return function singleton(option = {},cb) {
+           //形参接收传进来的参数
+           if (!instance) {
+               instance = new Tips()
+           }
+
+           //每一次实例化都会来到这里
+           //所以instance一定是实例
+           instance.setContent(option.txt)
+
+           //每一次都通过传递的值修改样式
+           instance.setcolor(option.topBG || "skyblue")
+
+           //每次都把传进来的回调函数赋值给实例的callback成员,或者不传回调函数
+           instance.callback = cb ||function () {}
+
+           return instance
+       }
+   })()
+
+//   执行的是singleton函数
+        Tip({
+            txt: "nihao",
+            topBG: "red"
+        },function a(res) {
+            console.log("res")
+        })
+
+
+</script>
+</html>

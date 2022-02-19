@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    class Person{
+        //把共同的属性提取出来，让每个实例继承这个属性
+        constructor(name){
+            this.name = name;
+        }
+        //方法也可以继承,这样每个实例都可以调用这个方法
+        drink(){
+            console.log(this.name+"喝水")
+        }
+    }
+
+    class Teacher extends Person{
+        constructor(name,subject){
+            super(name);
+            this.subject = subject;
+        }
+        teach(){
+            console.log("我是"+this.name+","+"教"+this.subject)
+        }
+    }
+
+    const teacher = new Teacher("罗翔","刑法");
+    console.log("teacher",teacher)
+
+    //当访问属性与方法时，先会在自身找，自身找不到就去原型找，原型找不到就到原型的原型找
+
+    teacher.teach()     // 这个方法teacher对象本身没有，
+                        // 于是通过__proto__找到Teacher.prototype对象，
+                        // 这个里面有teach方法
+
+    teacher.drink()     //这个方法teacher对象本身没有,
+                        //通过__proto__找到Teacher.prototype对象也没有
+                        //通过__proto__找到Person.prototype对象，
+                        //这里面有drink方法
+
+//    如何判断一个属性或方法自身是否存在   用hasOwnProperty()
+    console.log(teacher.hasOwnProperty("name"));                      //true
+    console.log(teacher.__proto__.hasOwnProperty("teach"))            //true
+    console.log(teacher.__proto__.__proto__.hasOwnProperty("drink"))  //true
+
+//    在当前的构造函数里hasOwnProperty()都没有定义，那么这个方法来自哪里？
+//    Person对象继承自Object对象，Object.prototype里有这个方法
+//    Object.prototype也是一个对象，但是Object.prototype.__proto__是null
+    console.log(teacher.__proto__.__proto__.__proto__.hasOwnProperty("hasOwnProperty"))  //true
+
+
+
+//    instanceof
+//    可以检查某个类是否是某个对象实例化出来的
+//    在teacher的原型链上的每一个prototype的constructor用instanceof则返回ture
+//    可以打印对象并在浏览器中检查
+//    Array不包含在原型链上
+    console.log(teacher instanceof Teacher);        //true
+    console.log(teacher instanceof Person);         //true
+    console.log(teacher instanceof Object);         //true
+    console.log(teacher instanceof Array);          //false
+
+    //用instanceof区分数组和对象
+    var arr = [1,2];
+    var obj = {name:"1"};
+    //通过浏览器看到arr有两级的constructor,第一级是Array()，第二级是Object()
+    console.log(arr)
+
+    //而obj只有一级的constructor，是Object()
+    console.log(obj)
+
+    //所以就有下列结果
+    console.log((arr instanceof Array))     //true
+    console.log((arr instanceof Object))    //true
+
+    console.log((obj instanceof Array))     //false
+    console.log((obj instanceof Object))    //true
+
+</script>
+</html>

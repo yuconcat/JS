@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //详细看 https://blog.csdn.net/cc18868876837/article/details/81211729
+
+    //1.每个函数function都有一个prototype，即显式原型
+//    2.每个实例对象都有一个__proto__，即隐式原型
+    
+//    3.实例的隐式原型为其对应构造函数的显式原型
+
+//    总结：1.函数的prototype属性：在定义时自动添加的，默认值是一个空Object对象
+//          2.对象的__proto__属性：创建对象时自动添加的，默认值为构造函数的prototype属性值
+//          3.可以直接操作显式原型，但在es6之前不能直接操作隐式原型
+
+    function Fn() {
+        this.test1 = function () {
+            console.log("xxx")
+        }
+    }
+
+    Fn.prototype.test2 = function () {
+        console.log("zzz")
+    }
+
+    var fn = new Fn()
+
+    fn.test1();
+    fn.test2();
+    console.log(fn.toString());
+    //fn.test3();
+
+
+
+
+
+    //1.prototype属性的作用就是让该函数所实例化的对象们都可以找到公用的属性和方法，（让人在prototype里写方法）
+    //      即f1.__proto__ === Foo.prototype
+
+    //2.__proto__属性的作用就是当访问一个对象的属性时，如果该对象内部不存在这个属性，
+    // 那么就会去它的__proto__属性所指向的那个对象（父对象）里找，一直找，直到__proto__属性的终点null，
+    // 再往上找就相当于在null上取值，会报错。通过__proto__属性将对象连接起来的这条链路即我们所谓的原型链。
+    //（通过__proto__到父对象的prototype里找方法）
+
+    //3.constructor属性的含义就是指向该对象的构造函数，所有函数（此时看成对象了）最终的构造函数都指向Function
+    //（找自己的构造函数）
+
+
+    //原型链：
+//    访问一个对象的属性时，先在自身属性中查找，如果没有，再沿着__proto__这条链向上查找，如果最终没有找到，返回undefined
+//    原型链也叫做隐式原型链
+//    用来查找对象的属性或方法
+//    1.读取对象的属性值时：会自动到原型链中查找
+//    2.设置对象的属性值时：不会查找原型链，如果当前对象中没有这个属性，则直接添加此属性并设置其值
+//    3.方法一般定义在原型中，属性一般通过构造函数定义在对象本身上
+
+    function Wn() {
+
+    }
+    Wn.prototype.a = "xxx";
+    var wn1 = new Wn();
+    console.log(wn1.a)    //xxx
+
+    console.log(wn1)      //Wn
+                                // [[Prototype]]: Object
+                                // a: "xxx"
+                                // constructor: ƒ Wn()
+                                // [[Prototype]]: Object
+
+    var wn2 = new Wn();
+    wn2.a = "zzz";
+    console.log(wn1.a);   //xxx
+    console.log(wn2.a);   //zzz
+
+    console.log(wn2);     //Wn
+                            // a: "zzz"
+                            // [[Prototype]]: Object
+                                // a: "xxx"
+                                // constructor: ƒ Wn()
+                                // [[Prototype]]: Object
+
+
+
+
+
+</script>
+</html>

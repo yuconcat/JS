@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //对象分为：内建对象，宿主对象，自定义对象
+    // 数组
+    // 1.也是一个对象
+    // 2.不是普通的对象
+    // 3.里面也可以放对象（包括函数）
+
+    //用构造函数创建数组，也可以向里面直接指定元素
+    const arr = new Array(10,20,30);
+    //读取数组不存在的索引，不会报错而是返回undifined
+    console.log(arr)
+
+    //length的作用，不仅可以查看数组的长度
+    //当设置length小于数组长度时，多余的数组元素会被删除,
+    // 所以可以通过修改length修改数组元素
+    for(let i=0;i<10;i++){
+        arr[i] = i+10;
+    }
+    console.log(arr)  // 10 个元素
+
+    arr.length=6;
+
+    console.log(arr)  // 6 个元素
+
+//===================================================================
+
+    //使用字面量创建数组，可以在创建时就指定数组中的元素
+    var arr1 = [1,2,3,4,5];
+    console.log(arr1)
+
+
+</script>
+</html>

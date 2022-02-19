@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+
+    <ul>
+        <li>上海</li>
+        <li>北京</li>
+        <li>南昌</li>
+        <li>山西</li>
+        <li>石家庄</li>
+    </ul>
+    <button id="btn1">通过标签获取元素</button>
+
+    <div>
+        <input class="hellow" type="radio" name="gender" value="male"/>male
+        <input class="hellow" type="radio" name="gender" value="female"/>female
+    </div>
+    <button id="btn2">通过name获取元素</button>
+
+</div>
+</body>
+
+<script>
+    window.onload = function () {
+
+        //获取元素节点
+        //通过document对象调用  在整个文档里调用，范围大
+
+        //1.getElementById();
+        //通过id属性获取一个元素节点对象
+
+
+        //2.getElementsByTagName();
+        //通过标签名获取一组元素节点对象
+        //这个方法会给我们返回一个类数组对象，所有查询到的对象都会封装到对象中
+        var btn1 = document.getElementById("btn1");
+
+        btn1.onclick = function ()
+        {
+            var lis = document.getElementsByTagName("li");    //查找文档中的全部li标签
+
+            for(var i=0;i<lis.length;i++)
+            {
+                alert(lis[i].innerHTML);
+            }
+        }
+
+
+        //3.getElementsByName();
+        //通过name属性获取一组元素节点对象
+        var btn2 = document.getElementById("btn2");
+
+        btn2.onclick = function ()
+        {
+            var gen = document.getElementsByName("gender");
+
+            for(var j=0;j<gen.length;j++)
+            {
+                //alert(gen[j].innerHTML);         //这里的<input/>是自结束标签，用innerHTML没有意义
+
+                alert(gen[j].value)
+
+                alert(gen[j].className)            //想要读标签内的class属性，必须要用className才行
+            }
+
+        }
+    };
+
+
+</script>
+</html>

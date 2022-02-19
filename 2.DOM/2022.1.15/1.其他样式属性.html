@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #box{
+        width: 200px;
+        height:200px;
+        background-color: tomato;
+        padding: 10px;
+        border: 10px solid yellow;
+    }
+    #box1{
+        width: 200px;
+        height:200px;
+        background-color: gray;
+        padding: 10px;
+        border: 10px solid blue;
+    }
+    #box2{
+
+        background-color: green;
+        padding: 100px;
+    }
+    #box4{
+        width: 200px;
+        height: 300px;
+        background-color: #bfa;
+        /*overflow: hidden;   多出的部分就被切了*/
+        overflow: auto;      /* 出现滚动条*/
+    }
+    #box5{
+        width: 500px;
+        height: 600px;
+        background-color: yellow;
+    }
+</style>
+<body id="body">
+
+<div id="box"></div>
+<button id="btn">点我一下</button>
+
+<div id="box3">
+    <div id="box2" style="position: relative">   <!--开启了定位-->
+        <div id="box1"></div>
+    </div>
+</div>
+<button id="btn1">点我一下</button>
+
+<div id="box4">
+    <div id="box5">
+
+    </div>
+</div>
+<button id="btn2">点我一下</button>
+</body>
+<script>
+    window.onload = function () {
+
+        let btn = document.getElementById("btn");
+        btn.onclick = function () {
+            let box = document.getElementById("box");
+            // clientWidth
+            // clientHeight
+            //    这两个元素可以获取元素的可见宽度和高度
+            //    这些属性都是不带px的，返回的是一个数字，可以直接计算
+            //    会获取元素的宽度和高度，包括内容区和内边距
+            //    这些属性是只读的
+                alert(box.clientWidth);     //220
+                alert(box.clientHeight);    //220
+
+            //  offsetWidth
+            //  offsetHeight
+            //    获取元素的整个的宽度和高度，包括内容区、内边距和边框
+                alert(box.offsetWidth);     //240
+                alert(box.offsetHeight);    //240
+
+        }
+
+
+        let btn1 = document.getElementById("btn1");
+        btn1.onclick = function () {
+            //offsetParent
+            //   可以用来获取当前元素的定位父元素
+            //   会获取到里当前元素最近的开启了定位的祖先元素
+            //   如果所有的祖先元素都没有开启定位，则返回body
+
+                let box1 = document.getElementById("box1");
+                let box2 = document.getElementById("box2");
+                let box3 = document.getElementById("box3");
+                var op = box1.offsetParent;
+                alert(op.id)                //box2
+
+            //    offsetLeft
+            //    当前元素相对于其定位父元素的水平偏移量
+            //    offsetTop
+            //    当前元素相对于其定位父元素的垂直偏移量
+
+                alert(box1.offsetLeft);     //100
+                alert(box2.offsetLeft);     //8
+                alert(box3.offsetLeft);     //8
+        }
+
+
+        let btn2 = document.getElementById("btn2");
+        btn2.onclick = function () {
+            let box4 = document.getElementById("box4");
+            let box5 = document.getElementById("box5");
+
+            //scrollHeight
+            //scrollWidth
+            //可以获得滚动区域的子元素的高度
+            //可以获得滚动区域的子元素的宽度
+
+            console.log("box4.clientHeight :" + box4.clientHeight) // 281   不是300的原因是：滚动条占了位置
+            console.log("box4.clientWidth :" + box4.clientWidth)   // 181   不是200的原因是：滚动条占了位置
+
+
+            console.log("box4.scrollHeight :" + box4.scrollHeight)  // 600
+            console.log("box4.scrollWidth :" + box4.scrollWidth)    // 500
+
+
+            console.log("box5.clientHeight :" + box5.clientHeight)  // 600
+            console.log("box5.clientWidth :" + box5.clientWidth)    // 500
+
+           // scrollLeft
+           // 可以获取水平滚动条的距离
+           // scrollTop
+           // 可以获取垂直滚动条的距离
+            console.log("box4.scrollLeft :" + box4.scrollLeft)
+            console.log("box4.scrollTop :" + box4.scrollTop)
+
+        //    当满足Math.round(scrollHeight - scrollTop) == clientHeight时   需要四舍五入
+        //    说明垂直滚动条滚动到底了
+            let a = Math.round(box4.scrollHeight - box4.scrollTop)
+            console.log("box4.scrollHeight-box4.scrollTop  :" + (a==box4.clientHeight))
+        }
+
+    }
+
+</script>
+</html>

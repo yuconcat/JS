@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    const oldObj = {
+        name:"张三",
+        age:20,
+        colors:["orange","green","blue"],
+        friend:{
+            name:"小夏"
+        },
+        setname:function () {
+
+        }
+    }
+
+    //浅拷贝
+    const newObj = oldObj;
+    newObj.name = "宵夜";
+    console.log("oldObj :",oldObj);
+    console.log("newObj :",newObj);
+
+    //实现深拷贝
+    function deepClone(obj) {
+        //先判断数据类型，如果不是对象或是null则直接返回
+        if(typeof obj != "object" || obj == null){
+            return obj;
+        }
+
+        //用来存储复制过来的属性
+        let result;
+
+        //判断要复制的是数组还是对象
+        if(obj instanceof Array){
+            result = [];
+        }
+        else {
+            result = {};
+        }
+
+        //循环遍历对象中的属性
+        for(let key in obj){
+            //只复制当前对象的属性，不复制原型上的属性
+            if(obj.hasOwnProperty(key)){
+                //通过递归来复制深层的属性
+                result[key] = deepClone(obj[key]);
+            }
+        }
+
+        return result;
+    }
+
+    //深拷贝
+    const newObj2 = deepClone(oldObj);
+    newObj2.friend.name = "小叶";
+    console.log("oldObj :",oldObj);
+    console.log("newObj2 :",newObj2);
+
+
+</script>
+</html>

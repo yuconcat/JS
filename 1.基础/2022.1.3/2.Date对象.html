@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    // 在JS中使用Date对象来表示一个时间
+    // 如果直接创建一个Date对象，则会封装当前代码执行的时间
+    var d= new Date();
+    console.log(d);     //Mon Jan 03 2022 19:27:12 GMT+0800 (中国标准时间)
+
+    // 想要创建一个指定的时间对象，则在构造函数中传递一个时间的字符串
+    var d2= new Date("12/03/2022 11:10:11");
+    console.log(d2);   //Sat Dec 03 2022 11:10:11 GMT+0800 (中国标准时间)
+
+    // 具体获取其中部分值，看文档
+
+    // 时间戳：
+    // 从1970年1月1号0时0分0秒到当前日期所花费的毫秒数
+
+    var time = d.getTime();
+    console.log(time);    //1641212936243
+
+    //获得当前时间的时间戳
+    time1 = Date.now();
+    console.log(time1);  //1641213257513
+
+</script>
+</html>

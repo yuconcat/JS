@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var arr = [1,2];
+    var obj = {name:"1"};
+    //typeof无法区分
+    console.log(typeof arr);   //object
+    console.log(typeof obj);   //object
+
+    //constructor属性返回对象的构造函数
+    //可以区分
+    console.log(arr.constructor == Array)    //true
+    console.log(arr.constructor == Object)   //false
+    console.log(obj.constructor == Object)   //true
+
+    //Array.isArray()
+    //可以区分
+    console.log(Array.isArray(arr))    //true
+    console.log(Array.isArray(obj))    //false
+
+    //instanceOf,左边是子对象（待测试对象），右边是父构造函数
+    //可以区分
+    console.log((arr instanceof Array))     //true
+    console.log((arr instanceof Object))    //true
+
+    console.log((obj instanceof Array))     //false
+    console.log((obj instanceof Object))    //true
+
+//    instanceof可以区分数组和对象的原理就是原型链 -->5.原型链
+
+</script>
+</html>

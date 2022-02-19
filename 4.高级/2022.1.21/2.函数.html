@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //什么是函数？
+//    1.实现特定功能的n条语句的封装体
+//    2.只有函数是可以执行的，其他类型的数据不能执行
+
+//    为什么要用函数？
+//    1.代码复用
+//    2.便于阅读
+
+//    如何定义函数？
+//    1.函数声明
+//    2.表达式:会有变量提升的效果
+    function fn1() {         //函数声明
+        console.log("fn1")
+    }
+    let fn2 = function () {  //表达式
+        console.log("fn2")
+    }
+
+//    如何调用函数？
+//    1.test():         直接调用
+//    2.obj.test():     通过对象调用
+//    3.new.test():     new调用
+//    4.test.call/apply(obj):临时让test成为obj的方法进行调用
+
+    var obj = {};
+    function test() {
+        this.xxx = "xyz"
+    }
+    test.apply(obj);
+    console.log(obj.xxx)     //xyz
+
+</script>
+</html>

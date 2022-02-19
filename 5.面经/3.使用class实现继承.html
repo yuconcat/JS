@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    class Person{
+        //把共同的属性提取出来，让每个实例继承这个属性
+        constructor(name){
+            this.name = name;
+        }
+        //方法也可以继承,这样每个实例都可以调用这个方法
+        drink(){
+            console.log(this.name+"喝水")
+        }
+    }
+
+    //用extends 关键字继承父类
+    class Student extends Person{
+        constructor(name,score){
+            //super调用父类的构造函数
+            super(name);
+            this.score = score;
+        }
+        introduce(){
+            console.log("我是"+this.name+","+"考了"+this.score)
+        }
+    }
+
+    class Teacher extends Person{
+        constructor(name,subject){
+            super(name);
+            this.subject = subject;
+        }
+        teach(){
+            console.log("我是"+this.name+","+"教"+this.subject)
+        }
+    }
+
+    const student = new Student("张三",78);
+    console.log("student",student)
+    student.introduce()
+    student.drink()
+
+
+    const teacher = new Teacher("罗翔","刑法");
+    console.log("teacher",teacher)
+    teacher.teach()
+    teacher.drink()
+</script>
+</html>

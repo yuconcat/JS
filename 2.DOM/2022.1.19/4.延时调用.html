@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //定时调用
+    //函数一直执行，每1000毫秒执行一次
+    let num = 0
+    setInterval(function () {
+        console.log(num++)
+    },1000)
+
+//    延时调用
+//    函数不马上执行，而是等1000毫秒时间在执行
+//    且只执行一次
+    let mem = 0
+    setTimeout(function () {
+        console.log(mem++)
+    },1000)
+</script>
+</html>

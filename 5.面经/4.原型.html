@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    class Student{
+        constructor(name,score){
+            this.name = name;
+            this.score = score;
+        }
+        introduce(){
+            console.log("我是"+this.name+","+"考了"+this.score)
+        }
+    }
+
+    const student = new Student("张三",78);
+    console.log("student",student)
+    student.introduce()
+//    如果在student（实例对象）里没有introduce这个方法，
+//    则会在student（实例对象）的__proto__隐式原型里寻找这个方法
+//    所以即使自身里没有，但是原型对象里有这个方法，也是可以调用的
+
+    console.log(Student.prototype === student.__proto__) //true
+                    //显式原型              //隐式原型
+</script>
+</html>

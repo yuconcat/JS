@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input id="input"/>
+</body>
+<script>
+    const inputDOM = document.getElementById("input")
+
+//    在用户输入完毕的时候，才发送一次http请求
+
+    function debounce(fn) {
+        //初始默认没有延时器
+        let timer = null
+
+        return function (e) {
+            //为每一次输入都设置延时器，但是同时会把前一次的延时器取消，只留下最后一次的延时器
+            if (timer){
+                clearInterval(timer)
+            }
+            timer = setTimeout(()=>{
+                //2.fn里要传入this和arguments，否则this指向就不是input框，而是window
+                fn.apply(this,arguments)
+            },1000)
+        }
+    }
+
+    //第二个参数要传入函数，而debounce()返回的是函数
+    inputDOM.addEventListener("input",debounce(function (e) {
+        //1.不能用箭头函数，否则this指向就不是input框，而是window
+        console.log(this)
+        console.log(e)
+        console.log("发送请求")
+    }),500)
+</script>
+</html>

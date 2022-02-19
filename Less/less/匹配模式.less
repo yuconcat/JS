@@ -1,0 +1,48 @@
+#box1{
+  //画三角
+  width: 0;
+  height: 0;
+  overflow: hidden;
+
+  border-width: 100px;
+  border-color: transparent transparent red transparent;
+  border-style: dashed dashed solid dashed;
+}
+
+//===========================================================
+//匹配模式
+.triangle(top,@w:5px,@color:red){
+  border-width: @w;
+  border-color: transparent transparent @color transparent;
+  border-style: dashed dashed solid dashed;
+}
+
+.triangle(right,@w:5px,@color:red){
+  border-width: @w;
+  border-color: transparent transparent transparent @color;
+  border-style: dashed dashed solid dashed;
+}
+
+.triangle(bottom,@w:5px,@color:red){
+  border-width: @w;
+  border-color: @color transparent transparent transparent;
+  border-style: dashed dashed solid dashed;
+}
+
+.triangle(left,@w:5px,@color:red){
+  border-width: @w;
+  border-color: transparent @color transparent transparent;
+  border-style: dashed dashed solid dashed;
+}
+
+//公用的样式可以放在下面的样式里   @_代表{}里面的东西
+.triangle(@_,@w:5px,@color:red){
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+//==========================================================
+#box2{
+  .triangle(left,100px,green)
+}

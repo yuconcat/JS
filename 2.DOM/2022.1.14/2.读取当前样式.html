@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #box{
+        width: 200px;
+        height:200px;
+        background-color: tomato;
+    }
+</style>
+<body>
+
+<div id="box"></div>
+
+<button id="btn1">点我一下获取样式</button>
+
+</body>
+<script>
+    window.onload = function () {
+
+        let btn = document.getElementById("btn");
+        let box = document.getElementById("box");
+
+        btn.onclick = function () {
+            //这个方法用来获取元素当前的样式
+            //这个方法时window的方法，可以直接使用，需要两个参数
+            //第一个参数：要获取的样式的元素的id
+            //第二个：可以传递一个微元素，一般都传null
+            //该方法会返回一个对象，对象中封装了当前元素对应的样式
+            //若没有设置width，他不会获取auto，而是一个长度
+            //ie8不支持
+            let obj = getComputedStyle(box,null);
+            alert(obj.width);
+        }
+
+    //    兼容的函数
+        function  getStyle(obj,name) {
+            if(window.getComputedStyle){      //window.getComputedStyle是全局的属性
+                //正常浏览器的方式，具有getComputedStyle()方法
+                return getComputedStyle(obj,null)[name];
+            }
+            else {
+                //ie8的方式，没有getComputedStyle()方法
+                return obj.currentStyle[name];
+            }
+        }
+
+
+
+
+    }
+</script>
+</html>

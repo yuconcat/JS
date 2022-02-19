@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function person(name,age,gender){
+        this.name=name;
+        this.age=age;
+        this.gender = gender;
+    };
+
+    var obj1 = new person("小里",18,"男");
+
+    alert(obj1);   //输出[object Object] ,在页面直接打印对象时，打印的是对象的tostring()方法的返回值
+
+    //====================================================================================
+
+    //如果想在输出对象时不输出[object Object]，可以为对象添加一个tostring()方法
+    //建议在原型对象里添加这个方法，这样每个由person创建出来的对象都可以直接使用
+    person.prototype.toString = function () {
+        return "[name="+this.name+",age="+this.age+",gender="+this.gender+"]"
+    }
+
+    alert(obj1);   //[name=小里,age=18,gender=男]
+
+
+</script>
+</body>
+</html>

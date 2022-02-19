@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ze</title>
+    <style>
+        /*div{*/
+            /*width: 400px;*/
+            /*margin:0 auto;*/
+            /*margin-top: 100px;*/
+            /*height: auto;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div>
+    <table border="1">
+        <tr>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Salary</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Tom</td>
+            <td>xxx@qq.com</td>
+            <td>11111</td>
+            <td><button class="delete">delete</button></td>
+        </tr>
+        <tr>
+            <td>Terry</td>
+            <td>xxx@qq.com</td>
+            <td>11111</td>
+            <td><button class="delete">delete</button></td>
+        </tr>
+        <tr>
+            <td>Bob</td>
+            <td>xxx@qq.com</td>
+            <td>11111</td>
+            <td><button class="delete">delete</button></td>
+        </tr>
+    </table>
+    </br>
+    </br>
+    <form>
+        name:<input type="text" name="name" id="name">
+        </br>
+        email:<input type="text" name="email" id="email">
+        </br>
+        salary:<input type="text" name="salary" id="salary">
+        </br>
+        <button id="btn">submit</button>
+    </form>
+</div>
+
+</body>
+<script>
+        window.onload = function () {
+            //添加员工信息的功能
+            let btn = document.querySelector("#btn");
+            btn.onclick = function () {
+                let name = document.querySelector("#name").value;
+                let email = document.querySelector("#email").value;
+                let salary = document.querySelector("#salary").value;
+
+                let table = document.querySelector("table");
+                let child = document.createElement("tr");
+                child.innerHTML = "<td>"+name+"</td>" +
+                                  "<td>"+email+"</td>" +
+                                  "<td>"+salary+"</td>" +
+                                  "<td><button class='delete'>delete</button></td>";
+                table.appendChild(child);
+
+                return false;   //没有这句取消默认表单行为的话，则添加不进去，点完添加的行会消失
+
+            };
+
+
+            //点击删除按钮实现删除行，并提示
+            let btn1 = document.getElementsByClassName("delete");
+            for (let i=0;i<btn1.length;i++){
+                btn1[i].onclick = function () {
+
+                    let names = this.parentNode.parentNode.firstElementChild.innerHTML;
+
+                    if(confirm("确认删除"+names+"？")){         //提示一个有取消按钮的弹窗
+
+                        this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+                        //不能用btn1[i].parentNode.parentNode.parentNode.removeChild(btn1[i].parentNode.parentNode),
+                        //会出现bug，原因是for循环会在页面加载完成后立即执行，二响应函数会在超链接被点击时才执行
+
+                    }
+                }
+            }
+
+
+        }
+</script>
+</html>

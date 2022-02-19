@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    img{
+        width: 1000px;
+        height: 540px;
+    }
+</style>
+<body>
+<img src="小绿新年.png">
+<br><br>
+<button id="btn1">开始</button>
+<button id="btn2">结束</button>
+</body>
+<script>
+    window.onload =function () {
+        var arr = ["光辉.png","光辉天狼星.png","小绿.png","小绿新年.png","捕获.png","星夜.png"]
+        var img = document.querySelector("img");
+        var btn1 = document.getElementById("btn1");
+        var btn2 = document.getElementById("btn2");
+        let timer
+        let index = 0;
+
+        //点击按钮图片开始切换
+        btn1.onclick = function () {
+            //每点击一次按钮，就会开启一个定时器
+            //点击多次，就会开启多个定时器，导致图片切换过快
+            //所以每点击一次按钮就清除之前的定时器
+            clearInterval(timer)
+
+            timer = setInterval(function () {
+                if (index==arr.length){
+                     index = 0;
+            }
+            //切换图片
+            img.src = arr[index++];
+            },1000)
+
+        }
+
+        //点击按钮图片切换停止
+        btn2.onclick = function () {
+            clearInterval(timer)
+
+        }
+
+    }
+</script>
+
+</html>

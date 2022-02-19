@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //策略模式
+//    一个问题匹配多种解决方案，而且可能随时还会继续增加多个方案
+//    例子：购物车结算，多种折扣方式
+
+//    1.把多种方案用闭包的形式保存起来
+//    2.对外留一个接口，可以添加和减少
+    const caleprice1 = (function () {
+
+        const sale = {
+            "100_10":function (price) {return price -= 10},
+            "200_20":function (price) {return price -= 20},
+            "80%":function (price) {return price *= 0.8}
+        }
+
+        function caleprice1(price,type) {
+        //    判断对象里面有没有这个折扣类型
+        //    有则执行，没有则提示
+            if (!sale[type]){
+                return "没有这个折扣"
+            }
+            return sale[type](price)
+        }
+
+        //把函数当做一个对象，向里面添加一些成员
+        caleprice1.add = function (type,fn) {
+            //判断折扣是否已存在
+            if (sale[type]){
+                return "折扣已存在"
+            }
+            sale[type] = fn
+            return "添加成功"
+        }
+
+        //删除一个折扣
+        caleprice1.del = function (type) {
+            delete sale[type]
+            return "删除成功"
+        }
+
+        //被return出去的函数，才是calcPrice本体
+        return caleprice1
+    })()
+
+    console.log(caleprice1(320,"80%"))
+    const  x = caleprice1.add("80%",function () {
+
+    })
+    console.log(x)
+    console.log(caleprice1.del("80%"))
+
+
+
+//    接收两个参数，价格，折扣种类
+//    这种写死了，不好
+    function calcPrice(price,type) {
+        if (type === "100_10"){
+            price -= 10
+        }else if (type === "200_30") {
+            price -= 30
+        }else if (type === "80%") {
+            price *= 0.8
+        }
+    }
+</script>
+</html>

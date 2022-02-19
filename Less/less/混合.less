@@ -1,0 +1,55 @@
+@x:100px;
+
+@border:1px solid #fff;
+
+//用变量去定义一个属性名的时候，再用的时候，一定要给这个名字加上一对大括号
+@pro:color;
+
+
+
+//混合写法，把另一个选择器1的名字放在这个样式里，这个样式就会具有这个样式
+.class {
+  border: @border;
+  //相当于background-color: red;
+  background-@{pro}: red;
+
+}
+
+.box{
+    //这两个优先显示
+    width: 300px;
+    height: 300px;
+
+    .class;
+}
+
+//===================================================
+
+//混和带参数（可以带默认值）
+.bgc(@bg:blue){
+  background: @bg;
+}
+
+.box1{
+  //这两个优先显示
+  width: 300px;
+  height: 300px;
+
+  //这两个下面的优先级更高
+  .class;
+  .bgc()
+}
+
+//===================================================
+
+//混合带多个参数（可以带默认值）
+.border2(@w:10px,@style:solid,@color:#000){
+  border: @w @style @color;
+}
+
+.box2{
+  height: 400px;
+  width: 400px;
+  //只改其中一个参数
+  .border2(@w:20px,@color:green)
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //什么是对象？
+//    1.多个数据的封装体
+//    2.用来保存多个数据的容器
+//    3.一个对象代表现实中的一个事物
+
+//    为什么用对象？
+//    1.统一管理多个对象
+
+//    对象的组成？
+//    1.属性：属性名（字符串）和属性值（任意类型）组成
+//    2.方法：一种特别的属性（属性值是函数）
+
+//    如何访问对象的内部数据？
+//    1.  .属性名：编码简单，但有时不能用
+//    2.  ['属性名']：编码麻烦，能通用
+
+
+//    什么时候用['属性名']的方式？
+//    1.属性名包含特殊字符串“-”，空格
+//    2.变量名不确定，用变量来存
+
+    //    给p对象添加一个属性：content-tpye:text/json
+    //     p.content-tpye="text/json"    不能用,因为属性名有“-”
+    var p = {};
+    p["content-tpye"] = "text/json"
+    console.log(p["content-tpye"])
+
+
+    var propname = "name"
+    var value = "tom"
+    p.propname = value     //propname: "tom"  这种不想要
+    p[propname] = value    //name: "tom"      这种是想要的
+
+</script>
+</html>

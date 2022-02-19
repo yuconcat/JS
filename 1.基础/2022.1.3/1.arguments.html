@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //在调用函数是，浏览器会传递两个隐含的参数
+
+    //1.函数上下文对象this
+
+    //2.封装实参的对象arguments
+    //      arguments是一个类数组对象，他可以通过操作索引来操作数据，也可以获取长度
+    //      在调用函数时，我们传递的实参都会封装到arguments
+
+    //      arguments.length可以用来获取实参的长度
+
+    //      即使不定义形参，也可以通过arguments来使用实参
+    //      arguments[0]  代表第一个实参
+    //      arguments[1]  代表第二个实参
+
+    function fun() {
+        console.log(arguments instanceof Array);   //查看arguments是否是Array的一个实例   false
+
+        console.log(Array.isArray(arguments));     //查看arguments是否是Array的一个实例   false
+
+        console.log(arguments.length);             //获取实参的长度                        3
+
+        console.log(arguments[2]);                 //获取实参                            asd
+
+    }
+
+    fun("xxx",2,"asd")
+
+</script>
+</html>

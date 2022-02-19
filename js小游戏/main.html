@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #main{
+        width: 480px;
+        height: 700px;
+        background:url("./img/background.png");
+        margin: 0 auto;
+        position: relative;
+
+        /*超出的部分隐藏*/
+        /*overflow: hidden;*/
+    }
+    #score{
+        position: absolute;
+        font-size: 18px;
+        padding: 5px;
+    }
+    div.tip{
+        width: 300px;
+        height: 200px;
+        border: 1px solid #333;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        margin: auto;
+        background-color: white;
+
+        /*默认不显示*/
+        display: none;
+    }
+    div.tip > .top{
+        height: 20px;
+        background-color: deepskyblue;
+        padding: 10px;
+    }
+    div.tip > .top > span{
+        float: right;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: white;
+        font-size: 16px;
+        text-align: center;
+        line-height: 20px;
+    }
+    .tip > .content{
+        position: relative;
+        height: 120px;
+        background-color: yellow;
+    }
+    .tip > .content > p{
+        position: relative;
+        text-align: center;
+        margin: 0px;
+        top:40%;
+        width: 260px;
+        padding: 0px 20px;
+    }
+    .tip > .btn{
+        height: 20px;
+        background-color: greenyellow;
+        padding: 10px 20px;
+    }
+    .tip > .btn > button{
+        float: right;
+        margin-left: 10px;
+    }
+    #stop{
+        position: absolute;
+        left: 400px;
+        top: 60px;
+        background: url("./img/resume_nor.png");
+        width: 60px;
+        height: 45px;
+    }
+</style>
+<body>
+<div id="main">
+    <div id="score">
+        <div>杀敌数:<span id="killnum">0</span></div>
+        <div>积分数:<span id="killscore">0</span></div>
+        <div>血条:<span id="playblood">5</span></div>
+    </div>
+    <div id="stop"></div>
+</div>
+<div class="tip">
+    <div class="top">标题
+        <span class="close">x</span>
+    </div>
+    <div class="content"><p>${txt}</p></div>
+    <div class="btn">
+        <button class="ok">确定</button>
+        <button class="cancel">取消</button>
+    </div>
+</div>
+</body>
+<script>
+    let mainObj = document.getElementById("main");
+    //敌方小飞机数组
+    let smallplaneArray = []
+    let killnum = document.getElementById("killnum")
+    let killscore = document.getElementById("killscore")
+    let playblood = document.getElementById("playblood")
+    //创建敌方小飞机
+//    属性：
+//          图片节点
+//          图片
+//          x，y坐标
+//          速度
+//    行为：
+//          移动
+//          初始化，把图片节点添加到main里面
+    function SmallplaneProto(imgSrc,x,y,speed) {
+        this.imgNode = document.createElement("img")
+        this.imgSrc = imgSrc
+        this.x = x
+        this.y = y
+        this.speed = speed
+        this.init = function () {
+            this.imgNode.src=this.imgSrc
+            this.imgNode.style.position="absolute"
+            this.imgNode.style.left=this.x + "px"
+            this.imgNode.style.top=this.y + "px"
+            //把敌方的小飞机添加到背景
+            mainObj.appendChild(this.imgNode)
+        }
+        //运行这个函数就初始化一次,创造一个小飞机
+        this.init()
+        //小飞机移动的方法
+        this.move = function () {
+            this.imgNode.style.top = parseInt(this.imgNode.style.top) + this.speed + "px"
+        }
+    }
+
+    //创建小飞机的方法
+    function createSmallPlane() {
+        let x = parseInt(Math.random()*423)
+        let y = -50
+        let speed = parseInt(Math.random()*5)
+
+        //每创建一个敌机就添加进数组
+        let smallPlane = new SmallplaneProto("./img/enemy1.png",x,y,speed)
+        smallplaneArray.push(smallPlane)
+    }
+
+    //每隔1秒就创建一个敌机
+    setInterval(createSmallPlane,500)
+
+    //移动小飞机
+    function smallPlaneMove() {
+
+        //让一个敌机都能移动
+        for(let i = 0;i<smallplaneArray.length;i++){
+                smallplaneArray[i].move()
+                //敌机出背景就销毁
+                if (parseInt(smallplaneArray[i].imgNode.style.top)>=700){
+                    //在页面上移除节点
+                    mainObj.removeChild(smallplaneArray[i].imgNode)
+                    //在数组中移除该敌机
+                    smallplaneArray.splice(i,1)
+                }
+        }
+    }
+
+    //让每个敌机一起向下移动
+    setInterval(smallPlaneMove,20)
+
+//================================================================
+
+    //按键开关
+    let leftBtn = false
+    let rightBtn = false
+    let upBtn = false
+    let downBtn = false
+    //子弹数组
+    let bulletArray = []
+
+    //玩家飞机
+    //创建玩家小飞机
+    //    属性：
+    //          图片节点
+    //          图片
+    //          x，y坐标
+    //          速度
+    //    行为：
+    //          移动，限定范围
+    //          初始化，把图片节点添加到main里面
+    //          可以发射子弹
+    function PlayplaneProto(imgSrc,x,y,speed) {
+        this.imgNode = document.createElement("img")
+        this.imgSrc = imgSrc
+        this.x = x
+        this.y = y
+        this.speed = speed
+        this.init = function () {
+            this.imgNode.src=this.imgSrc
+            this.imgNode.style.position="absolute"
+            this.imgNode.style.left=this.x + "px"
+            this.imgNode.style.top=this.y + "px"
+            //把敌方的小飞机添加到背景
+            mainObj.appendChild(this.imgNode)
+        }
+        //运行这个函数就初始化一次,创造一个小飞机
+        this.init()
+        //通过判断玩家按键来移动玩家飞机
+        this.moveleft = function () {
+            //判断飞机的左边界情况
+            if (this.imgNode.style.left == "-50px") {
+                this.imgNode.style.left = 480+"px"
+            }
+            else {
+                this.imgNode.style.left = parseInt(this.imgNode.style.left) - this.speed + "px"
+            }
+        }
+        this.moveright = function () {
+            //判断飞机的右边界情况
+            if (this.imgNode.style.left == "480px") {
+                this.imgNode.style.left = -50+"px"
+            }
+            else {
+                this.imgNode.style.left = parseInt(this.imgNode.style.left) + this.speed + "px"
+            }
+        }
+        this.moveup = function () {
+            //判断飞机的上边界情况
+            if (this.imgNode.style.top == "0px") {
+                this.imgNode.style.top = 0+"px"
+            }
+            else {
+                this.imgNode.style.top = parseInt(this.imgNode.style.top) - this.speed + "px"
+            }
+        }
+        this.movedown = function () {
+            //判断飞机的下边界情况
+            if (this.imgNode.style.top == "670px") {
+                this.imgNode.style.top = 670+"px"
+            }
+            else {
+                this.imgNode.style.top = parseInt(this.imgNode.style.top) + this.speed + "px"
+            }
+
+        }
+        //创建子弹
+        this.shoot = function () {
+            let newBullet = new bulletProto("./img/bullet1.png",parseInt(this.imgNode.style.left)+21,parseInt(this.imgNode.style.top)-8,10)
+            //把子弹压入数组
+            bulletArray.push(newBullet)
+        }
+    }
+
+    //创建玩家飞机
+    let player = new PlayplaneProto("./img/life.png",200,560,5)
+
+    //不断发射子弹
+    setInterval(function (){player.shoot()},100)
+
+    //在body中按下键盘的时候，打开开关
+    document.body.onkeydown = function (event) {
+        //兼容火狐
+        event = event || arguments[0]
+
+        if(event.key == "ArrowLeft"){
+            leftBtn = true
+        }
+        if(event.key == "ArrowRight"){
+            rightBtn = true
+        }
+        if(event.key == "ArrowUp"){
+            upBtn = true
+        }
+        if(event.key == "ArrowDown"){
+            downBtn = true
+        }
+    }
+
+    //在body中松开键盘的时候，关闭开关
+    document.body.onkeyup = function (event) {
+        //兼容火狐
+        event = event || arguments[0]
+
+        if(event.key == "ArrowLeft"){
+            leftBtn = false
+        }
+        if(event.key == "ArrowRight"){
+            rightBtn = false
+        }
+        if(event.key == "ArrowUp"){
+            upBtn = false
+        }
+        if(event.key == "ArrowDown"){
+            downBtn = false
+        }
+    }
+
+    //判断开关移动玩家飞机
+    function ctrlPlay() {
+
+        if(leftBtn == true){
+            player.moveleft()
+        }
+        if(rightBtn == true){
+            player.moveright()
+        }
+        if(upBtn == true){
+            player.moveup()
+        }
+        if(downBtn == true){
+            player.movedown()
+        }
+    }
+
+    //不断的判断开关情况
+    setInterval(ctrlPlay,10)
+
+//=============================================================
+
+    //子弹模板
+    function bulletProto(imgSrc,x,y,speed) {
+        this.imgNode = document.createElement("img")
+        this.imgSrc = imgSrc
+        this.x = x
+        this.y = y
+        this.speed = speed
+        this.init = function () {
+            this.imgNode.src=this.imgSrc
+            this.imgNode.style.position="absolute"
+            this.imgNode.style.left=this.x + "px"
+            this.imgNode.style.top=this.y + "px"
+            //把子弹添加到背景
+            mainObj.appendChild(this.imgNode)
+        }
+        //运行这个函数就初始化一次,创造一个子弹
+        this.init()
+        //子弹向上移动
+        this.move = function () {
+            this.imgNode.style.top = parseInt(this.imgNode.style.top) - this.speed + "px"
+        }
+    }
+
+    //每颗子弹移动的方法
+    function bulletMove() {
+        for (let i = 0 ;i<bulletArray.length;i++){
+            bulletArray[i].move()
+            //子弹飞出背景就消失，并移除数组
+            if (parseInt(bulletArray[i].imgNode.style.top)<0){
+                mainObj.removeChild(bulletArray[i].imgNode)
+                bulletArray.splice(i,1)
+            }
+        }
+    }
+
+    //每颗子弹不断移动
+    setInterval(bulletMove,10)
+
+//=================================================================
+
+    //碰撞函数
+    function crashCheck() {
+        //遍历全部的飞机（少）和子弹（多）
+        for (let i =0;i<smallplaneArray.length;i++){
+            for (let j =0;j<bulletArray.length;j++){
+                //敌飞机左边
+                let plLeft = parseInt(smallplaneArray[i].imgNode.style.left)
+                //敌飞机顶
+                let plTop = parseInt(smallplaneArray[i].imgNode.style.top)
+                //子弹左边
+                let btLeft = parseInt(bulletArray[j].imgNode.style.left)
+                //子弹顶
+                let btTop = parseInt(bulletArray[j].imgNode.style.top)
+
+                //子弹与飞机的碰撞条件满足
+                if (btLeft >= plLeft && btLeft<=plLeft+48 && btTop>=plTop && btTop<=plTop+43){
+                    //子弹消失
+                    mainObj.removeChild(bulletArray[j].imgNode)
+                    bulletArray.splice(j,1)
+
+                    //敌机改变图片
+                    smallplaneArray[i].imgNode.src = "./img/enemy1_down1.png"
+
+                    //杀敌积分
+
+                    killnum.innerHTML = parseInt(killnum.innerHTML) +1
+                    killscore.innerHTML = parseInt(killscore.innerHTML) + 3
+
+                    //延迟消失
+                    setTimeout(function () {
+                        mainObj.removeChild(smallplaneArray[i].imgNode)
+                        smallplaneArray.splice(i,1)
+                    },200)
+            }
+        }
+    }
+
+        //飞机消失
+
+        setTimeout(function () {
+            mainObj.removeChild(smallplaneArray[i].imgNode)
+            smallplaneArray.splice(i,1)
+        },500)
+    }
+
+    setInterval(crashCheck,10)
+
+//=============================================================
+
+    //自定义弹出层
+    //1.书写改造函数
+    //2.书写闭包
+    //3.把类放在闭包里
+    //4.单例模式核心代码
+
+    //实现功能的类
+    const Tip = (function () {
+        class Tips {
+            constructor() {
+                //   创建最外层的div标签
+                this.ele = document.createElement("div")
+                this.ele.className = "tip"
+                document.body.appendChild(this.ele)
+                //设置默认回调函数
+                this.callback = function () {}
+                //只要在第一次创建的时候就绑定好事件，不用每次都绑定
+                this.bindEvent()
+            }
+
+            //    1.填充this.ele的内容
+            setContent(txt) {
+                //应该是创建节点的形式书写，自己添加样式，而不是直接写字符串
+                this.ele.innerHTML = `<div class="top">标题
+                                         <span class="close">x</span>
+                                         </div>
+                                         <div class="content"><p>${txt}</p></div>
+                                         <div class="btn">
+                                          <button class="ok">确定</button>
+                                           <button class="cancel">取消</button>
+                                        </div>`
+
+
+                this.ele.style.display = "block"
+            }
+
+            //    2.添加各种事件
+            //     ev.target实现事件委托，否则上面的结构一旦修改，绑定的事件就会失效
+            bindEvent() {
+                this.ele, addEventListener("click", ev => {
+                    ev = ev || window.event
+                    const target = ev.target || ev.srcElement
+
+                    if (target.className === "close") {
+                        this.ele.style.display = "none"
+                    }
+
+                    if (target.className === "cancel") {
+                        this.callback(false)
+                        this.ele.style.display = "none"
+                    }
+
+                    if (target.className === "ok") {
+                        this.callback(true)
+                        this.ele.style.display = "none"
+                    }
+                })
+            }
+
+            //    3.添加样式
+            setcolor(val){
+                this.ele.querySelector(".top").style.backgroundColor = val
+            }
+        }
+
+        //单例模式核心代码
+        let instance = null
+
+        return function singleton(option = {},cb) {
+            //形参接收传进来的参数
+            if (!instance) {
+                instance = new Tips()
+            }
+
+            //每一次实例化都会来到这里
+            //所以instance一定是实例
+            instance.setContent(option.txt)
+
+            //每一次都通过传递的值修改样式
+            instance.setcolor(option.topBG || "skyblue")
+
+            //每次都把传进来的回调函数赋值给实例的callback成员,或者不传回调函数
+            instance.callback = cb ||function () {}
+
+            return instance
+        }
+    })()
+
+    document.getElementById("stop").onclick=function () {
+        //   执行的是singleton函数
+        Tip({
+            txt: "是否继续",
+            topBG: "red"
+        },function a(res) {
+            console.log("res")
+        })
+    }
+
+</script>
+</html>

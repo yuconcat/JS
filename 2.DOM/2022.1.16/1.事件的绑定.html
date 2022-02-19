@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="btn">点我一下</button>
+</body>
+<SCRIPT>
+    window.onload = function () {
+        var btn = document.getElementById("btn");
+
+        //这种方法只能同时为一个元素绑定一个响应函数
+        //不能绑定多个，如果绑定多个，则后面的会覆盖掉前面的
+
+        // btn.onclick = function () {
+        //     alert("1")
+        // }
+        // btn.onclick = function () {
+        //     alert("2")
+        // }
+
+    //      addEventListener()
+    //    通过这种方法也可以为元素绑定响应函数,而且可以为一个相同事件同时绑定多个响应函数
+    //    参数：
+    //    1.事件的字符串，不要on
+    //    2.回调函数，当事件触发时该函数会被调用
+    //    3.是否在捕获阶段触发事件，需要一个布尔值，一般都传false
+    //    ie8不支持
+        btn.addEventListener("click",function () {
+            alert("1");
+        },false);
+        btn.addEventListener("click",function () {
+            alert("2");
+        },false);
+
+    //    ie8支持的,但其他浏览器不支持
+    //    attachEvent()
+    //    执行顺序相反
+    //    参数：
+    //    1.事件的字符串，要on
+    //    2.回调函数，当事件触发时该函数会被调用
+    //     btn.attachEvent("click",function () {
+    //         alert("1");
+    //     });
+    //     btn.attachEvent("click",function () {
+    //         alert("2");
+    //     });
+
+    }
+</SCRIPT>
+
+</html>

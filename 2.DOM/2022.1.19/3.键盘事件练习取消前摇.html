@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #box1{
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        background-color: tomato;
+    }
+</style>
+<body>
+<div id="box1">
+</div>
+</body>
+<script>
+    window.onload =function () {
+        var box = document.getElementById("box1");
+        let speed = 0;
+        let ev
+        //利用定时器,取消前摇
+        //一直在踩油门，按下按键就是弹射起步
+        setInterval(function () {
+            let num
+            if(ev.key == "ArrowUp"){
+                box.style.top = box.offsetTop - speed + "px"
+            }
+            else if(ev.key == "ArrowDown"){
+                box.style.top = box.offsetTop + speed + "px"
+            }
+            else if(ev.key == "ArrowLeft"){
+                box.style.left = box.offsetLeft - speed + "px"
+            }
+            else if(ev.key == "ArrowRight"){
+                box.style.left = box.offsetLeft + speed + "px"
+            }
+            num++
+            console.log(num)   //所以会一直调用这个定时器函数
+        },10)
+
+        document.onkeydown = function (event) {
+            speed = 15
+            //当按下ctrl时，速度变快
+            if(event.ctrlKey){
+                speed = 30
+            }
+            ev = event
+        }
+        document.onkeyup = function (event) {
+            speed = 0;
+        }
+
+
+
+    }
+</script>
+</html>

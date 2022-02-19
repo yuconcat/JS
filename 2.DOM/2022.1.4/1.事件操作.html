@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="btn" onclick="fun();">我是一个按钮</button>
+<button id="btn1">我是一个按钮</button>
+<button id="btn2" onclick="alert('方法三');">直接在标签里写</button>
+</body>
+<script>
+    //DOM简介：看w3cschool
+    //HTML 文档中的所有内容都是节点,
+    //整个文档是一个文档节点
+    //每个 HTML 元素是元素节点
+    //HTML 元素内的文本是文本节点
+    //每个 HTML 属性是属性节点
+
+
+
+//==============================================================================
+
+    //事件：就是用和浏览器之间的交互行为 ,事件太多，具体查文档DOM Event
+    //比如：点击按钮，鼠标移动，关闭窗口...
+    //我们可以在事件对应的属性中设置js代码，当事件被触发是，这些代码将会被执行
+
+
+    //浏览器已经为我们提供了文档节点对象，这个对象是window属性
+    //可以在页面中直接使用，文档节点代表的是整个网页
+
+    //方法一
+    function fun()
+    {
+        //获取到button对象
+        var btn = document.getElementById("btn");
+        //修改按钮的文字
+        btn.innerHTML = "已经修改了";
+    }
+
+    //方法二
+    var btn1 = document.getElementById("btn1");
+    btn1.onclick = function ()
+    {
+        alert("方法二");
+    }
+
+</script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+</body>
+<script>
+    //截取元素(不改变原数组)   slice(start, end)    [包括开头，不包括结尾)                        (查)
+    //第二个参数不写，则会截取到start及之后全部元素
+    //参数可以为负值
+    var fruits = ["Banana", "Orange", "Apple", "Mango"];
+    var re = fruits.slice(0, 2);  // 截取 fruits 中的两个元素,并返回被截取元素
+    console.log(re);               //"Banana","Orange"
+
+//==========================================================================
+
+    //splice(start，long)
+    // 第一个参数开始位置索引
+    // 第二个参数是删除的数量
+    // 第三个及以后参数代表要插入的元素
+    // 可以用来删除数组中指定元素，会改变原数组，并将被删除元素返回
+
+    var fr = ["Banana", "Orange", "Apple", "Mango"];
+    var result = fr.splice(0,2)                  //把前两个删除了，并返回前两个                   (删)
+    console.log(result);      //0: "Banana" 1: "Orange"
+
+    var fr1 = ["Banana", "Orange", "Apple", "Mango"];
+    var result1 = fr1.splice(2,1,"xxx");         //删除1个元素，并在开始索引前头插入一个元素         (改)
+    console.log(result1);
+    console.log(fr1);         //0: "Banana" 1: "Orange" 2: "xxx" 3: "Mango"
+
+    var fr2 = ["Banana", "Orange", "Apple", "Mango"];
+    var result2 = fr2.splice(2,0,"xxx","ccc");   //不删除元素，并在开始索引前头插入两个元素          (增)
+    console.log(result2);
+    console.log(fr2);        //0: "Banana" 1: "Orange" 2: "xxx" 3: "ccc" 4: "Apple" 5: "Mango"
+</script>
+</html>

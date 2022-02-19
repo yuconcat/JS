@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    class MyPromise{
+        static PENDING = "pending";
+        static FULFILLED = "fulfilled";
+        static REJECTED = "rejected";
+
+        constructor(executor){
+            //默认初始状态
+            this.status = HD.PENDING;
+            this.value = null;
+            //异步执行时，先把要执行的函数保存起来，等异步执行完成后再从中取出
+            this.callbacks = [];
+            //类似promise(resolve,reject)
+            //人为干预this指向自己
+            try{
+                //如果MyPromise里有错误不能执行，就抛出reject
+                executor(this.resolve.bind(this),this.reject.bind(this));
+            }catch (error) {
+                this.reject(error)
+            }
+
+        }
+        //成功
+        resolve(value){
+            //修改状态,并且使状态在修改后不再改变
+            if(this.status == HD.PENDING){
+                this.status = HD.FULFILLED
+                //传值
+                this.value = value
+                //实现MyPromise里的setTimeout里的异步情况
+                setTimeout(()=>{
+                    this.callbacks[1](this.value)
+                })
+            }
+        }
+        //失败
+        reject(reason){
+            //修改状态,并且使状态在修改后不再改变
+            if(this.status == HD.PENDING){
+                this.status = HD.REJECTED
+                //传值
+                this.value = reason
+                //实现MyPromise里的setTimeout里的异步情况
+                setTimeout(()=>{
+                    this.callbacks[0](this.reason)
+                })
+            }
+        }
+
+        //then(fulfilled(),rejected())
+        then(ONFULFILLED,ONREJECTED){
+            //使then单独可以传一个函数而不报错
+            if (typeof ONFULFILLED != "function"){
+                ONFULFILLED = () => {}
+            }//使then单独可以传一个函数而不报错
+            if (typeof ONREJECTED != "function"){
+                ONREJECTED = () => {}
+            }
+
+            //保证then的执行是在resolve执行之后
+            if (this.status == MyPromise.FULFILLED) {
+                //实现放入微任务队列的效果
+                setTimeout(()=>{
+                    //如果then里有错误不能执行，就抛出ONREJECTED
+                    try{
+                        //把then里的函数返回值给result
+                        let result = ONFULFILLED(this.value)
+                        resolve(result)
+                    }
+                    catch (error) {
+                        ONREJECTED(error)
+                    }
+                })
+            }
+
+            //保证then的执行是在reject执行之后
+            if (this.status == MyPromise.REJECTED) {
+                //实现放入微任务队列的效果
+                setTimeout(()=>{
+                    //如果then里有错误不能执行，就抛出ONREJECTED
+                    try{
+                        let result = ONREJECTED(this.value)
+                        resolve(result)
+                    }
+                    catch (error) {
+                        ONREJECTED(error)
+                    }
+                })
+            }
+
+            //当状态改变是异步的时候，不会让then立即执行，保证异步执行结束后then能够被执行
+            if (this.status == MyPromise.PENDING) {
+                //先把可能要执行的函数保存进数组
+                this.callbacks.push({
+                    ONREJECTED,
+                    ONFULFILLED
+                })
+            }
+            //实现链式操作,then返回一个MyPromise
+            return new MyPromise((resolve,reject)=>{})
+        }
+    }
+</script>
+</html>

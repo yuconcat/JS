@@ -1,0 +1,33 @@
+.box{
+  width: 500px;
+  padding: 20px;
+  border: 1px solid #f00;
+
+  h2{
+    font:20px/20px "微软雅黑";
+  }
+
+  p{
+    color:green;
+  }
+
+  ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li{
+      height: 30px;
+      background-color: aqua;
+
+      a{
+        color: saddlebrown;
+        //相当于给a添加hover
+        //& 父级选择器
+        &:hover{
+          color: darkcyan;
+        }
+      }
+    }
+  }
+}

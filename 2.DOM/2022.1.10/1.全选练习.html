@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method="post" action="">
+    运动爱好<input type="checkbox" id="checkedAllBox">全选/全不选
+    </br>
+    <input type="checkbox" name="items" value="足球"/>足球
+    <input type="checkbox" name="items" value="篮球"/>篮球
+    <input type="checkbox" name="items" value="羽毛球"/>羽毛球
+    <input type="checkbox" name="items" value="乒乓球"/>乒乓球
+    </br>
+    <input type="button" id="checkedAllBtn" value="全选"/>
+    <input type="button" id="checkedNoBtn" value="全不选"/>
+    <input type="button" id="checkedRevBtn" value="反选"/>
+    <input type="button" id="sendBtn" value="提交"/>
+</form>
+</body>
+<script>
+    window.onload = function () {
+        //实现全选/全不选
+
+        const btn1 = document.getElementById("checkedAllBox");
+        btn1.onclick = function () {
+
+            const click1 = document.getElementsByName("items");      //通过getElementsByName得到的是一个数组
+
+            for (let i=0;i<click1.length;i++){
+
+                click1[i].checked = this.checked;                   //实现复选框的勾选
+            }
+        }
+
+        //实现全选按钮
+        const btn2 = document.getElementById("checkedAllBtn");
+        btn2.onclick = function () {
+
+            const click2 = document.getElementsByName("items");
+
+            for (let i=0;i<click2.length;i++){
+                click2[i].checked = true;
+            }
+            btn1.checked = true;                //使顶部全选打钩
+        }
+
+        //实现全不选按钮
+        const btn3 = document.getElementById("checkedNoBtn");
+        btn3.onclick = function () {
+
+            const click3 = document.getElementsByName("items");
+
+            for (let i=0;i<click3.length;i++){
+                click3[i].checked = false;
+            }
+            btn1.checked = false;                //使顶部全选不打钩
+        }
+
+        //实现反选
+        const btn4 = document.getElementById("checkedRevBtn");
+        btn4.onclick = function () {
+
+            const click4 = document.getElementsByName("items");
+
+            for (let i=0;i<click4.length;i++){
+                if (click4[i].checked == true)
+                    click4[i].checked = false;
+                else
+                    click4[i].checked = true;
+            }
+        }
+
+        //实现提交
+        const btn5 = document.getElementById("sendBtn");
+        btn5.onclick = function () {
+            const click5 = document.getElementsByName("items");
+            for(let i=0;i<click5.length;i++){
+                if(click5[i].checked == true){
+                    alert(click5[i].value)
+                }
+            }
+        }
+
+
+
+
+        function panduan() {         //实时判断是否全选/全不选
+            const checkAll = document.getElementsByName("items");
+            let j = 0;
+            for (let i = 0;i<checkAll.length;i++){
+                if(checkAll[i].checked == true){
+                    j++;
+
+                }
+            }
+            if (j==4){
+                btn1.checked = true;
+            }
+            else
+                btn1.checked = false;
+        }
+
+        const check6 = document.getElementsByName("items");
+        for(let i=0;i<check6.length;i++){
+            check6[i].onclick = function(){           //给每个单选框绑定点击事件
+                panduan();
+
+            }
+
+        }
+
+    }
+
+
+</script>
+</html>

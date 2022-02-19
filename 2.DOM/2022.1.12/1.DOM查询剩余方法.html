@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="box1">
+    <div>xxx</div>
+</div>
+<div></div>
+<div class="box1">
+    <div>ccc</div>
+</div>
+<div></div>
+</body>
+<script>
+    window.onload = function () {
+        //document.documentElement保存的是html的根标签
+        var html = document.documentElement;
+
+        //document.body保存的是body标签
+        var body = document.body;
+
+        //document.all代表全部标签元素,或下面的一种方法都可以
+        var all = document.all;   //已经弃用
+        var all1 = document.getElementsByTagName("*");
+
+        //根据元素的class属性值查询,box是数组
+        var box = document.getElementsByClassName("box1");
+
+//=========================================================================
+
+        //通过css选择器选择元素节点对象(最常用的方法)
+        //querySelector，如果满足条件的有多个，则会返回第一个
+        var div = document.querySelector(".box1 div");
+        alert(div.innerHTML);     //xxx
+
+        //querySelectorAll，如果满足条件的有多个，可以通过数组来全部返回
+        var divall = document.querySelectorAll(".box1 div");
+        alert(divall[0].innerHTML);     //xxx
+        alert(divall[1].innerHTML);     //ccc
+    }
+</script>
+</html>

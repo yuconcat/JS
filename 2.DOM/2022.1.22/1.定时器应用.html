@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        padding: 0px;
+        margin: 0px;
+    }
+    #box1{
+        width: 100px;
+        height: 100px;
+        background-color: tomato;
+        position: absolute;
+        left: 0px;
+    }
+</style>
+<body>
+<button id="btn">点我盒子一直右移</button>
+<button id="btn2">点我盒子一直左移</button>
+<br><br><br>
+<div id="box1"></div>
+<div style="width: 0px;height: 1000px;border-left: 1px black solid; position: absolute;left: 800px"></div>
+</body>
+<script>
+    window.onload = function () {
+        var btn = document.getElementById("btn");
+        var btn2 = document.getElementById("btn2");
+        var box1 = document.getElementById("box1");
+        var timer;
+
+        btn.onclick = function () {
+
+            //清除旧定时器，防止产生多个定时器
+            clearInterval(timer)
+
+            //开启一个定时器，用来执行动画效果
+            timer = setInterval(function () {
+
+                //获取box1原来的left值
+                var oldvalue = box1.offsetLeft;
+
+                //在旧值得基础上增加
+                var newvalue = oldvalue + 11;
+
+                //避免加的值会跳过800这个值导致盒子不会停下来
+                if(newvalue >= 800){
+                    newvalue=800;
+
+                    //当元素移动到800px时，使其停止执行动画
+                    clearInterval(timer);
+                }
+
+                //将新值设置给box1
+                box1.style.left = newvalue +"px";
+
+            },10)
+        }
+
+        btn2.onclick = function () {
+
+            //清除旧定时器，防止产生多个定时器
+            clearInterval(timer)
+
+            //开启一个定时器，用来执行动画效果
+            timer = setInterval(function () {
+
+                //获取box1原来的left值
+                var oldvalue = box1.offsetLeft;
+
+                //在旧值得基础上增加
+                var newvalue = oldvalue - 11;
+
+                //避免减的值会跳过0这个值导致盒子不会停下来
+                if(newvalue <= 0){
+                    newvalue=0;
+
+                    //当元素移动到0px时，使其停止执行动画
+                    clearInterval(timer);
+                }
+
+                //将新值设置给box1
+                box1.style.left = newvalue +"px";
+
+            },10)
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #outer{
+        width: 660px;
+        height: 360px;
+        /*样式居中*/
+        margin: 150px auto;
+        /*上下有一圈框*/
+        padding: 10px 0px;
+        background-color: tomato;
+        /*给父元素开启相对定位*/
+        position: relative;
+        /*裁剪溢出的内容*/
+        overflow: hidden;
+    }
+    /*设置ul宽度，使图片水平放得下*/
+    #imglist{
+        /*width:3960px;   写死了不好动态调整*/
+        /*给子元素开启绝对定位*/
+        position: absolute;
+        /*设置初始偏移量，每次修改640+10px就移动一张图片*/
+        left: 0px;
+    }
+    img{
+        width: 640px;
+        height: 360px;
+        padding-left: 10px;
+    }
+    li{
+        /*去除li默认样式*/
+        list-style: none;
+        /*使图片水平放置*/
+        float: left;
+    }
+    /*设置导航按钮样式*/
+    #nav{
+        /*开启绝对定位，脱离文档流,同一个父元素的兄弟元素，
+          且位置在兄弟元素下面，所以在兄弟元素前面显示*/
+        position: absolute;
+        /*设置位置高度*/
+        margin-top: 330px;
+        /*设置居中 translateX(-50%)平移自身的一半*/
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    #nav a{
+        /*使之浮动，块元素也有行内元素的特性*/
+        float: left;
+        /*设置导航的宽高*/
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        /*设置左右外边距，使之分开*/
+        margin-left: 10px;
+        /*设置透明*/
+        opacity: 0.7;
+    }
+</style>
+
+<body>
+<!--创建外部盒子，用来作为大的容器-->
+    <div id="outer">
+        <!--创建一个ul，用来放置图片-->
+        <ul id="imglist">
+            <li><img src="小绿.png"></li>
+            <li><img src="光辉天狼星.png"></li>
+            <li><img src="光辉.png"></li>
+            <li><img src="小绿新年.png"></li>
+            <li><img src="捕获.PNG"></li>
+            <li><img src="星夜.png"></li>
+        </ul>
+        <!--创建导航按钮-->
+        <div id="nav">
+            <!--在href中加#使点击切换图片不会闪回-->
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+            <a href="#"></a>
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = function () {
+        //获取图片列表，并自动设置总的宽度
+        var imglist = document.getElementById("imglist")
+        var imgarr = document.getElementsByTagName("img")
+        //设置imglist的宽度,通过图片数量间接修改宽度
+        imglist.style.width = (640+10)*imgarr.length+"px"
+        //设置导航默认选中效果
+        var allA = document.querySelectorAll("#nav a");
+        allA[0].style.backgroundColor = "black"
+
+        //获取当前点击第几个的数字
+        let index = 0;
+
+        //点击超链接切换到指定图片
+        for (let i=0;i<allA.length;i++){
+            allA[i].onclick = function () {
+                // imglist.style.left = -(i*(640+10))+"px";   没有动画效果
+                //调用之前的move函数获取动画效果
+                //这里使用节流会切换的更流畅
+                move(imglist,-(i*(640+10)),300,function () {});
+                //先让所有的导航变回原色
+                for (let j = 0;j<allA.length;j++){
+                    allA[j].style.backgroundColor = "";
+                }
+                //再让点击的图片导航变黑
+                allA[i].style.backgroundColor = "black";
+                x = i;
+            }
+        }
+
+
+
+        //调用之前的move函数获取动画效果
+        //obj   ：要执行动画的对象
+        //target：执行动画的目标位置
+        //speed ：移动的速度
+        //callback:回调函数，在动画执行完毕时调用
+        function move(obj,target,speed,callback) {
+            //清除旧定时器，防止产生多个定时器
+            clearInterval(obj.timer)
+
+            //获取元素目前的位置
+            var current = obj.offsetLeft;
+
+            //判断元素目前的位置
+            //如果从0向800移动，则speed为正
+            //如果800向0移动，则speed为负
+            if(current > target){
+                speed = -speed;
+            }
+
+            //开启一个定时器，用来执行动画效果
+
+            //用来让对象保存自己的定时器标识    @
+            obj.timer = setInterval(function () {
+
+                //获取box1原来的left值
+                var oldvalue = obj.offsetLeft;
+
+                //在旧值得基础上增加
+                var newvalue = oldvalue + speed;
+
+                //避免加的值会跳过target这个值导致盒子不会停下来
+                //向左移动时，需要判断newvalue是否小于target
+                //向右移动时，需要判断newvalue是否大于target
+                if(speed < 0 && newvalue < target || speed > 0 && newvalue > target){
+                    newvalue=target;
+
+                }
+
+                //将新值设置给box1
+                obj.style.left = newvalue +"px";
+
+                if (newvalue == target){
+                    //当元素移动到800px时，使其停止执行动画
+                    clearInterval(obj.timer);
+
+                    //在动画执行完毕后调用
+                    //有就调，没有就不调
+                    callback && callback();
+
+                }
+            },10)
+        }
+
+
+
+        let x = 0;
+        //获取到当前停留在那张图片的数字，使定时器从此处开始
+        x = index;
+        //开启定时器使之图片自动轮转
+        setInterval(function () {
+            if(x == allA.length){
+                x = 0;
+                //最后一张图切换到第一张图时，改善效果，直接跳到第一张
+                imglist.style.left = -(x*(640+10))+"px";
+                allA[allA.length-1].style.backgroundColor = "";
+                allA[x].style.backgroundColor = "black";
+            }
+            else {
+                //调用之前的move函数获取动画效果
+                move(imglist,-(x*(640+10)),15,function () {});
+                //先让所有的导航变回原色
+                for (let j = 0;j<allA.length;j++){
+                    allA[j].style.backgroundColor = "";
+                }
+                //再让点击的图片导航变黑
+                allA[x].style.backgroundColor = "black";
+
+                x++;
+            }
+        },2500)
+    }
+</script>
+</html>

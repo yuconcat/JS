@@ -1,0 +1,36 @@
+/*
+这里的注释可以在css里看见
+*/
+
+//这里的注释不可以在css里看见
+
+/*
+变量：
+  声明变量的方法：
+  @变量名：值
+
+*/
+
+@x:100px;
+
+@border:1px solid #fff;
+
+//用变量去定义一个属性名的时候，再用的时候，一定要给这个名字加上一对大括号
+@pro:color;
+
+//url再用的时候，一定要给这个名字加上一对大括号
+@imgurl:"../img";
+
+.box{
+  width: @x;
+
+  height: @x;
+
+  border: @border;
+
+  //相当于background-color: red;
+  background-@{pro}:red;
+
+  //相当于background: url("../img/bannan.png");
+  background: url("@{imgurl}/bannan.png");
+}

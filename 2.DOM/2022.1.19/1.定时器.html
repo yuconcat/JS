@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 id="count">1</h1>
+</body>
+<script>
+    window.onload = function () {
+        //让count的内容自动切换
+        var count = document.getElementById("count");
+
+        // setInterval()
+    //    定时调用，可以将一个函数每隔一段事件执行一次
+    //    参数：
+    //    1.回调函数，该函数会每隔一段时间被调用一次
+    //    2.每次调用间隔的时间，单位时毫秒
+
+    //    返回值：
+    //    返回一个Number类型的数字
+    //    这个数字用来作为定时器的唯一标识
+        let num = 1
+        let timer = setInterval(function () {
+
+            count.innerHTML = num ++
+
+            if (count.innerText == "30"){
+                clearInterval(timer)        // clearInterval() 可以关闭一个定时器,方法中传递定时器的标识
+            }
+
+        },100)
+
+        alert("timer : "+timer);
+
+    }
+</script>
+</html>

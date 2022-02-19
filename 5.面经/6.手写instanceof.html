@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    class Person{
+        //把共同的属性提取出来，让每个实例继承这个属性
+        constructor(name){
+            this.name = name;
+        }
+        //方法也可以继承,这样每个实例都可以调用这个方法
+        drink(){
+            console.log(this.name+"喝水")
+        }
+    }
+
+    class Teacher extends Person{
+        constructor(name,subject){
+            super(name);
+            this.subject = subject;
+        }
+        teach(){
+            console.log("我是"+this.name+","+"教"+this.subject)
+        }
+    }
+
+    const teacher = new Teacher("罗翔","刑法");
+
+    //    手写instanceof
+    //    原理如下
+    //    instanceof可以检查某个类是否是某个对象实例化出来的
+    //    在原型链上的每一个prototype的constructor的值可以使instanceof为true
+
+    //    实例的隐式原型为其对应构造函数的显式原型
+    //    不断比较原型链上的对象是否和构造函数的显式原型一样
+
+    function myinstanceof(obj,classname) {
+        while (obj){
+            if(obj === classname.prototype){
+                return true;
+            }
+            else {
+                obj = obj.__proto__;
+            }
+        }
+        return false;
+    }
+
+    console.log(myinstanceof(teacher,Person))
+</script>
+</html>

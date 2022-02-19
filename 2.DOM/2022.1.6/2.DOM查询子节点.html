@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <ul id="city">
+        <li>南昌</li>
+        <li>石家庄</li>
+        <li>北京</li>
+        <li>杭州</li>
+    </ul>
+    <button id="btn1">点我获取城市</button>
+
+    <ul id="game">
+        <li>王者</li>
+        <li>碧蓝</li>
+        <li>fgo</li>
+        <li>原神</li>
+    </ul>
+    <button id="btn2">点我获取游戏</button>
+</div>
+
+</body>
+<script>
+    //获取元素子节点
+    //通过具体的元素节点对象调用  ，范围小
+
+    //getElementByName();
+    //方法，返回当前节点的指定标签名后代节点
+
+    //chileNodes
+    //属性，表示当前节点的所有子节点
+
+    //firstChild
+    //属性，表示当前节点的第一个子节点
+
+    //lastChild
+    //属性，表示当前节点的最后一个子节点
+
+    //children
+    //属性，表示当前节点的所有子元素
+
+    //firstElementChild
+    //属性，表示当前节点的第一个子元素
+
+    //lastElementChild
+    //属性，表示当前节点的最后一个子元素
+
+
+    var btn1=document.getElementById("btn1");
+
+    btn1.onclick = function ()
+    {
+        var city = document.getElementById("city");
+
+        var lis = city.getElementsByTagName("li");      //查找city元素下的全部li标签
+
+        for(var i=0;i<lis.length;i++)
+        {
+            alert(lis[i].innerHTML);
+        }
+    }
+
+
+    var btn2=document.getElementById("btn2");
+
+    btn2.onclick = function ()
+    {
+        var game = document.getElementById("game");
+
+        var lis1 = game.childNodes;              //查找city元素下的全部子节点
+        alert(lis1.length);                      //长度是9，说明该属性会获取包括文本节点在内的所有节点，
+                                                 // 所以里面的换行也算一个子节点
+
+        alert(game.firstChild.innerHTML);        //undefined   是换行
+        alert(game.lastChild.innerHTML);         //undefined   是换行
+
+
+        var lis2 = game.children;                //查找city元素下的所有子元素
+        alert(lis2.length);                      //长度是4，说明该属性会获取所有子元素
+
+        alert(game.firstElementChild.innerHTML); //王者
+        alert(game.lastElementChild.innerHTML);  //原神
+    }
+
+</script>
+</html>

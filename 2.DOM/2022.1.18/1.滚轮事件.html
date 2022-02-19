@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    body{
+        height: 3000px;
+    }
+    #box1{
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: absolute;
+    }
+</style>
+<body>
+<div id="box1"></div>
+</body>
+<script>
+    window.onload = function () {
+    //    当鼠标滚轮向下滚动时，box1边长
+    //    当滚轮向上时，box1变短
+
+        var box1 = document.getElementById("box1");
+    //    onwheel事件，当鼠标滚轮在元素上向上或向下滚动时，会发生 onwheel 事件。
+    //    在 IE 中，只有通过 addEventListener() 方法才支持 wheel 事件。
+    //    DOM 对象上没有 onwheel 属性。
+        box1.onwheel = function (event) {
+
+            //deltaY返回鼠标滚轮的垂直滚动量（y 轴）
+            if(event.deltaY<0){
+                box1.style.height = box1.clientHeight - 10+"px"
+            }
+            else {
+                box1.style.height = box1.clientHeight + 10+"px"
+            }
+
+        //    当页面有滚动条时，向下滚动，页面默认也会跟着动，体验不好
+        //    所以要取消滚动条的默认行为
+            return false;
+
+        //    注意：当使用addEventListener()方法绑定响应函数时，取消默认行为不能用return false
+        //    需要使用event.preventDefault()来取消默认行为
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="btn">点击事件</button>
+</body>
+<SCRIPT>
+ //什么是回调函数？
+    //1.你定义的
+    //2.你没有调
+    //3.但最终执行了
+
+ document.getElementById("btn").onclick = function () {    //dom事件回调函数
+     alert(this.innerHTML)
+ }
+
+ setTimeout(function () {     //定时器回调函数
+     alert("xxx")
+ },3000)
+
+
+ //常见的回调函数
+//    1.dom事件回调函数
+//    2.定时器回调函数
+//    3.ajax请求回调函数
+//    4.生命周期回调函数
+
+</SCRIPT>
+</html>

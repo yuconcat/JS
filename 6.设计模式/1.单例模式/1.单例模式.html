@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //单：单一
+    //例：实例
+    //一个构造函数只能有一个实例
+//    不管new多少次，都是这一个实例
+//    应用：自定义弹出层
+//    结构：div内有xxx，默认隐藏，在一定条件下显示
+//    实现：每次都是一个div在来回显示
+
+//    单例模式的核心代码
+//    let instance = null
+//    function singleton(){
+//          if(!instance)
+//          {
+//              instance = 实例对象
+//          }
+//          return instance
+//       }
+
+
+    function Person() {
+        this.name = "jack"
+    }
+
+    //单例模式核心代码
+    let instance = null
+
+    function singleton() {
+        //第一次创建是直接创建实例对象
+        if(!instance){
+            instance = new Person()
+        }
+        //之后创建的实例对象就是原先实例对象的浅拷贝，返回第一次实例的地址
+        return instance
+    }
+
+    //使用singleton()来创建对象
+    const p1 = singleton()
+    const p2 = singleton()
+
+    console.log(p1,p2)
+    console.log(p1 === p2)   //true
+</script>
+</html>

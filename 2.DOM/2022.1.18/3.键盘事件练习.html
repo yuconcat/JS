@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #box1{
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        background-color: tomato;
+    }
+</style>
+<body>
+<div id="box1">
+</div>
+</body>
+<script>
+    window.onload =function () {
+        var box = document.getElementById("box1");
+        document.onkeydown = function (event) {
+
+            let speed = 10
+            //当按下ctrl时，速度变快
+            if(event.ctrlKey){
+                speed = 30
+            }
+            if(event.key == "ArrowUp"){
+                box.style.top = box.offsetTop - speed + "px"
+            }
+            else if(event.key == "ArrowDown"){
+                box.style.top = box.offsetTop + speed + "px"
+            }
+            else if(event.key == "ArrowLeft"){
+                box.style.left = box.offsetLeft - speed + "px"
+            }
+            else if(event.key == "ArrowRight"){
+                box.style.left = box.offsetLeft + speed + "px"
+            }
+
+        }
+    }
+</script>
+</html>

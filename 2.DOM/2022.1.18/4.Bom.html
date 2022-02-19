@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+//    BOM对象
+//    这些对象都是作为window对象的属性保存的，可以通过window来调，也可以直接使用
+//    包括： window      ，代表浏览器的窗口，也是网页的全局对象
+//          navigator   ，包含有关浏览器的信息，可以识别不同的浏览器
+//          location    ，用于获取当前页面地址（URL）并把浏览器重定向到新页面
+//          history     ，包含浏览器历史，为了保护用户的隐私，
+//                        JavaScript 访问此对象存在限制，
+//                        只能操作浏览器向前或向后翻页，只在当次访问有效
+
+//    用户代理（User Agent，简称 UA）：浏览器
+//      i不区分大小写
+//      在ie11里微软已经将ie相关的标识都去除了
+     let agent = window.navigator.userAgent;
+        if(/chrome/i.test(agent)){
+            alert("谷歌");
+        }else if(/firefox/i.test(agent)){
+            alert("火狐");
+        }else if(/msie/i.test(agent)){
+         alert("低级IE浏览器");
+        }else if("ActiveXObject" in window){    //通过判断ie里独有的方法来判断是不是ie
+         alert("低级IE浏览器");
+        }
+
+
+
+//      history：
+        window.history.forword(); //上一步
+        window.history.back();  //下一步
+        window.history.go(0);  //接收参数 0   表示刷新当前页面
+        window.history.go(2); //接收正整数  表示前进2个页面
+        window.history.go(-2); //接收负整数  表示后退2个页面
+
+
+
+//      location
+        window.location.href;  //获取当前地址栏的地址
+        window.location.href = "http://www.baidu.com"; // 设置当前地址栏的地址
+        window.location.reload();  //刷新
+        window.location.reload(true);  //强制刷新
+</script>
+</html>

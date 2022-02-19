@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tit le</title>
+</head>
+<style>
+    body{
+        height: 3000px;
+    }
+    #box1{
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: absolute;
+    }
+    #box2{
+        width: 100px;
+        height: 100px;
+        background-color: yellow;
+        position: absolute;
+        top: 200px;
+        left: 200px;
+    }
+</style>
+<body>
+<div id="box1"></div>
+<div id="box2"></div>
+</body>
+<script>
+    window.onload = function () {
+        var box1 = document.getElementById("box1");
+
+        //onmouseenter和onmouseleave是不冒泡的，其他鼠标事件会冒泡
+
+        // 鼠标进入
+        box1.onmouseenter = function(){
+            // 鼠标按下
+            box1.onmousedown = function () {
+                //鼠标在盒子的相对位置，使鼠标一直在盒子的相对位置
+                //返回鼠标指针相对于目标元素边缘位置的水平坐标。
+                //返回鼠标指针相对于目标元素边缘位置的垂直坐标。
+                let px = event.offsetX
+                let py = event.offsetY
+                // 元素随鼠标移动
+                document.onmousemove = function (event) {
+                    // 修改盒子位置
+                    //返回触发鼠标事件时鼠标指针相对于文档的水平坐标。
+                    //返回触发鼠标事件时鼠标指针相对于文档的垂直坐标。
+                    let x = event.pageX    //不能用clientX，这个是在整个页面的当前位置，有滚动条时会出现偏移
+                    let y = event.pageY
+
+                    box1.style.left = x - px + "px"
+                    box1.style.top = y - py + "px"
+
+                }
+
+                //下面的函数如果放在外一层，会出小bug，容易出现松鼠标不停下来
+
+                //鼠标松开，        //出现bug，在box2里送鼠标会停不下来，所以不对box1绑，而要对docment绑松鼠标事件
+                //                //但这样又会产生bug，鼠标在任意地方点在松也会触发事件，不安全
+                document.onmouseup = function () {
+                    //元素在当前位置，即取消onmousemove事件
+                    document.onmousemove = null;
+                    //把自己的松鼠标事件也取消掉，变成一次性事件
+                    document.onmouseup = null;
+                    //如果不取消松鼠标事件，则在任意地方点在松也会触发alert
+                    alert("xxx")
+                    return false;
+                }
+
+            }
+
+        }
+
+
+        // // 这种不能用
+        // box1.addEventListener("mouseenter",function () {
+        //     // 鼠标按下
+        //     box1.addEventListener("mousedown",function () {
+        //         // 元素随鼠标移动
+        //         document.addEventListener("mousemove",function (event) {
+        //             // 修改盒子位置
+        //             let x = event.pageX
+        //             let y = event.pageY
+        //             box1.style.left = x+"px"
+        //             box1.style.top = y+"px"
+        //         },false);
+        //     },false);
+        //
+        //     //鼠标松开，元素在当前位置，
+        //     box1.addEventListener("mouseup",function () {
+        //         // 即取消onmousemove事件
+        //         document.removeEventListener("mousemove",function () {
+        //         },false);
+        //     },false);
+        //
+        // },false);
+
+
+    }
+</script>
+</html>

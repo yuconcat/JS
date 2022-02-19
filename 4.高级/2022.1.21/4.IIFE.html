@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //IIFE 全称：匿名函数立即调用
+//      作用：1.隐藏实现
+//           2.不会污染全局命名空间
+//           3.用来编写js函数
+    (function () {
+        var a = 1;
+        alert("xxx");
+    })();
+
+    (function () {
+        var a = 1;
+        function test() {
+            alert(++a);
+        }
+        window.x = function () {   //向window暴露一个全局函数
+            return{
+                test1:test
+            }
+        }
+    })();
+
+    x().test1()                     //1.x是一个函数  2.x执行后返回的是一个对象
+</script>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //观察者模式
+//    例子：监控
+//    监控一个对象的状态，观察者就会触发技能
+//    所以需要两个构造函数来实现
+//    1.创建被观察者
+//          属性，自己的状态
+//          队列，记录都有谁观察者自己
+//          方法，能设置自己的状态，当我需要改变的时候，要触发这个方法改变状态
+//          方法，添加、删除观察者
+//    2.创建观察者
+//          需要一个身份证明
+//          需要一个技能
+
+
+    //创造观察者构造函数
+    class Observer{
+        constructor(name,fn=()=>{}){
+            this.name =name
+            this.fn = fn
+        }
+    }
+
+//    创建两个观察者
+    const bzr = new Observer("班主任",(state)=>{if (state == "玩游戏") {console.log("叫家长")}});
+    const xz = new Observer("校长",(state)=>{if (state == "打架"){console.log("骂老师")}});
+
+//    创造被观察者
+    class Student {
+        constructor (state){
+            //记录自己的状态
+            this.state = state
+            //数组用来保存观察自己的观察者
+            this.observser = []
+        }
+
+    //    设置自己的状态
+        setState(val){
+            this.state = val
+            //当状态改变时，就要遍历数组，依次触发每个观察者的技能
+            this.observser.forEach(item =>{
+            //item就是每一个观察者
+            //告诉他们我的状态变成了什么,把每个观察者的技能触发掉
+                item.fn(this.state)
+            })
+        }
+
+    //    方法：添加观察者
+        addObserver(obs){
+            //this.observser.push(obs)    这样添加会出现重复添加的bug
+        //    所以要提前判断一下数组中的观察者是否已经存在
+        //    1.some()      重复出现则返回true
+        //     const res = this.observser.some(item => item === obs)
+        //     this.observser.push(obs)
+        //    2.find()      重复出现则返回重复的对象
+        //     const res = this.observser.find(item => item === obs)
+        //     this.observser.push(obs)
+        //    3.filter()    重复出现则返回重复的对象
+        //     const res = this.observser.filter(item => item === obs)
+        //     this.observser.push(obs)
+        //    4.findIndex()    重复出现的则返回0
+            const res = this.observser.findIndex(item => item === obs)
+            if (res != 0) {
+                this.observser.push(obs)
+                console.log(res)
+            }
+        }
+
+    //    删除观察者
+        delObserver(obs){
+        //    把obs观察者删除
+        //    直接使用filter方法
+        //    把Array的某些元素过滤掉，然后返回剩下的元素
+        //    和map()类似，Array的filter()也接收一个函数。和map()不同的是，
+        //    filter()把传入的函数依次作用于每个元素，然后根据返回值是true还是false决定保留还是丢弃该元素。
+            this.observser = this.observser.filter(item => item !== obs)
+        }
+    }
+
+//    创造一个被观察的对象
+    const xiaoming = new Student("学习")
+
+    xiaoming.addObserver(bzr)
+    xiaoming.addObserver(xz)
+
+
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text"/>
+</body>
+<script>
+    window.onload = function () {
+    //    键盘事件：一般都会绑定给一些可以获取焦点的对象或是document
+    //    onkeydown
+    //    1.按键被按下时触发，
+    //    2.如果一直按着，就一直触发
+    //    3.第一次触发和第二次触发的间隔会长一些，然后触发的就非常快，用来防止误操作
+
+    //    onkeyup
+    //    按键被松开触发
+
+        document.onkeydown = function (event) {
+            console.log(event.code)    //返回按下的是哪个键KeyA
+            console.log(event.key)     //返回按下的是哪个键 a
+
+        //    还提供了altKey，ctrlKey，shiftKey返回触发按键事件时是否按下了这些键
+
+        //    在文本框中输入内容，属于onkeydown的默认行为
+        //    如果在onkeydown中取消了默认行为，则输入的内容，不会出现在文本框中
+        //    可以用来限制输入的种类范围
+        }
+    }
+</script>
+</html>
