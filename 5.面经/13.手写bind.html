@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function f() {
+        console.log(this)
+    }
+    f()
+    f.call()     //默认不传参就是window
+    f.call(f)
+    f.apply(f)
+    f.bind(f)()
+    f.bind()()
+
+//========================================================================
+
+    //在Function的原型对象上添加这个方法，能调用的都是Function的实例
+    Function.prototype.mycall = function(obj,...args) {
+        //防止这个自己创建的fn会把obj里的同名函数给覆盖了
+        let fn = Symbol(1)
+
+        // 这里默认不传就是给window,
+        // 也可以用es6给参数设置默认参数
+        obj = obj || window
+
+        //为context创建一个方法fn
+        //此时该this是调用mycall的方法或实例
+        //这里context.fn == show
+        obj[fn] = this
+
+        // 以方法的形式调用时，this就是调用方法的对象
+        // 当调用context.fn()这个方法时，this就指向context了
+        // 同时把参数放进去,  = show(args)
+        obj[fn](args)
+
+        // 平白为对象添加fn会对obj造成影响
+        // 所以把为obj临时添加的fn给删除掉
+        delete obj[fn]
+
+    }
+
+    function show(...arg){
+        console.log(this.name)
+        console.log(arg)
+    }
+
+    show.mycall({name:"xxx"})
+
+//===========================================================================
+
+    //在Function的原型对象上添加这个方法，能调用的都是Function的实例
+    Function.prototype.myapply = function(obj,args) {
+
+        //提前判断，如果第二个参数有值但又不是数组，就报错
+        if (args && !(args instanceof Array)){
+            throw Error("第二个参数只收数组")
+        }
+        let fn = Symbol(1)
+
+        obj = obj || window
+
+        obj[fn] = this
+
+        obj[fn](args)
+
+        delete obj[fn]
+    }
+
+    function show1(...arg){
+        console.log(this.name)
+        console.log(arg)
+    }
+
+    show1.myapply({name:"xxx"},["1","2","3"])
+
+ //=============================================================================
+
+    //在Function的原型对象上添加这个方法，能调用的都是Function的实例
+    Function.prototype.mybind = function(obj,...args) {
+        //bind函数不会立即执行，还需要再调用一次
+        //第二次传参的参数是...args2
+        return (...args2)=>{
+
+            let fn = Symbol(1)
+
+            obj = obj || window
+
+            obj[fn] = this
+            //再一次调用时是可以在传参的
+            //concat(arg2)会把两次传的参合并
+            obj[fn](...args.concat(arg2))
+
+            delete obj[fn]
+        }
+    }
+
+    function show2(...arg){
+        console.log(this.name)
+        console.log(arg)
+    }
+
+    let b = show2.mybind({name:"xxx"},"1","2","3")
+    b("4")
+</script>
+</html>
