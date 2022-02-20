@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  .empty{
+      width: 100px;
+      height: 100px;
+      border: 2px solid ;
+      position: relative;
+      left: 100px;
+      top: 100px;
+  }
+  .patterns{
+        width: 120px;
+        height: 350px;
+        border: 2px solid ;
+        position: absolute;
+        left: 400px;
+        top: 100px;
+    }
+  .pat{
+      width: 100px;
+      height: 100px;
+      border: 1px solid ;
+      margin-top: 10px;
+      margin-left: 10px;
+      left: 50%;
+      top: 50%;
+  }
+  #box1{
+      background-color: red;
+    }
+  #box2{
+      background-color: #e35dc0;
+  }
+  #box3{
+      background-color: #2f8fff;
+  }
+</style>
+<body>
+<section class="show">
+    <h1>拖动喜欢的颜色</h1>
+        <div class="empty"></div>
+</section>
+<section class="patterns">
+    <!--默认图片可以拖动，非默认的要加draggable="true"-->
+            <div class="pat" id="box1" draggable="true">1</div>
+            <div class="pat" id="box2" draggable="true">2</div>
+            <div class="pat" id="box3" draggable="true">3</div>
+</section>
+</body>
+<script>
+//    被拖动元素
+//      开始：dragstart
+//      进行中：drag
+//      结束：dragend
+
+//    目标区域
+//      进入时：dragenter
+//      进入后：dragover
+//      离开  ：dragleave  （要取消默认行为）
+//      放置  ：drop       （要取消默认行为）
+
+    const empty = document.querySelector(".empty")
+
+    const patterns = document.querySelector(".patterns")
+
+    let color = null
+
+    patterns.addEventListener('dragstart',(e)=>{
+        e.target.style.border = "5px dashed red"
+
+    },false)
+
+    patterns.addEventListener('dragend',(e)=>{
+        e.target.style.border = "2px solid"
+    },false)
+
+    empty.addEventListener('dragenter',(e)=>{
+        e.target.style.border = "5px dashed red"
+    },false)
+
+    empty.addEventListener('dragenter',(e)=>{
+        e.target.style.border = "2px solid"
+    },false)
+
+    empty.addEventListener('drop',(e)=>{
+
+        e.target.style.border = "2px solid"
+
+        e.preventDefault()   //取消默认行为
+    },false)
+</script>
+</html>
