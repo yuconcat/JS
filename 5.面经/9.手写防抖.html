@@ -38,7 +38,7 @@
     }
 
     //第二个参数要传入函数，而debounce()返回的是函数
-    box.addEventListener("dragend",debounce(function (e) {
+    box.addEventListener("drag",debounce(function (e) {
         //1.不能用箭头函数，否则this指向就不是box，而是window
         console.log(this)
         console.log(e)
