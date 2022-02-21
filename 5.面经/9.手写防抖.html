@@ -4,14 +4,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+    #box{
+        width: 100px;
+        height: 100px;
+        background-color: red;
+    }
+</style>
 <body>
-<input id="input"/>
+<div id="box" draggable="true"></div>
 </body>
 <script>
-    const inputDOM = document.getElementById("input")
+    //n 秒后在执行该事件，若在 n 秒内被重复触发，则重新计时
+    //电梯第一个人进来后，等待15秒。如果过程中又有人进来，15秒等待重新计时，直到15秒后开始运送，这是防抖
 
-//    在用户输入完毕的时候，才发送一次http请求
+    const box = document.getElementById("box")
 
+//    在用户移动的最后一刻，才开始执行
     function debounce(fn) {
         //初始默认没有延时器
         let timer = null
@@ -22,15 +31,15 @@
                 clearInterval(timer)
             }
             timer = setTimeout(()=>{
-                //2.fn里要传入this和arguments，否则this指向就不是input框，而是window
+                //2.fn里要传入this和arguments，否则this指向就不是box框，而是window
                 fn.apply(this,arguments)
             },1000)
         }
     }
 
     //第二个参数要传入函数，而debounce()返回的是函数
-    inputDOM.addEventListener("input",debounce(function (e) {
-        //1.不能用箭头函数，否则this指向就不是input框，而是window
+    box.addEventListener("dragend",debounce(function (e) {
+        //1.不能用箭头函数，否则this指向就不是box，而是window
         console.log(this)
         console.log(e)
         console.log("发送请求")
