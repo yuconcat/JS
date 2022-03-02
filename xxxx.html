@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function splitArray(arr1, num) {
+        let arr = []
+        let xx = arr1.length/num;
+        let y = 0
+        let start = 0
+        let end = num
+        while(y!==xx){
+            let x = arr1.slice(start,end)
+            arr.push(x)
+            start+=num
+            end+=num
+            y++
+        }
+        console.log(arr);
+    }
+
+    splitArray([1,2,3,4,5,6], 3)
+
+</script>
+</html>

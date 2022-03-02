@@ -21,14 +21,14 @@
 <script>
     window.onload = function () {
 
-        let btn = document.getElementById("btn");
+        let btn = document.getElementById("btn1");
         let box = document.getElementById("box");
 
         btn.onclick = function () {
-            //这个方法用来获取元素当前的样式
+            //这个方法用来获取元素当前的样式读css里的样式
             //这个方法时window的方法，可以直接使用，需要两个参数
-            //第一个参数：要获取的样式的元素的id
-            //第二个：可以传递一个微元素，一般都传null
+            //第一个参数：要获取的样式的元素的节点
+            //第二个：可以传递一个伪元素，一般都传null
             //该方法会返回一个对象，对象中封装了当前元素对应的样式
             //若没有设置width，他不会获取auto，而是一个长度
             //ie8不支持
@@ -36,9 +36,10 @@
             alert(obj.width);
         }
 
-    //    兼容的函数
+        // 兼容的函数
         function  getStyle(obj,name) {
-            if(window.getComputedStyle){      //window.getComputedStyle是全局的属性
+            //window.getComputedStyle是全局的属性
+            if(window.getComputedStyle){
                 //正常浏览器的方式，具有getComputedStyle()方法
                 return getComputedStyle(obj,null)[name];
             }
@@ -47,9 +48,6 @@
                 return obj.currentStyle[name];
             }
         }
-
-
-
 
     }
 </script>

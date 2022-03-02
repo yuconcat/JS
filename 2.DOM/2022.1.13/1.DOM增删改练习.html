@@ -69,7 +69,7 @@
                                   "<td>"+email+"</td>" +
                                   "<td>"+salary+"</td>" +
                                   "<td><button class='delete'>delete</button></td>";
-                table.appendChild(child);
+                table.lastChild.appendChild(child);
 
                 return false;   //没有这句取消默认表单行为的话，则添加不进去，点完添加的行会消失
 
@@ -92,8 +92,6 @@
                     }
                 }
             }
-
-
         }
 </script>
 </html>
